@@ -9,7 +9,7 @@ spring:
 
 sensor:
   plant-id: plant01
-  sensor-id: sensor001
+  sensor-id: sensor01
   interval-ms: 10000
   min-value: 0
   max-value: 100

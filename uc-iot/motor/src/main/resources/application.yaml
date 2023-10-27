@@ -9,7 +9,7 @@ spring:
 
 motor:
   plant-id: plant01
-  motor-id: motor001
+  motor-id: motor01
   max-interval-ms: 30000
   states:
     - "on"
