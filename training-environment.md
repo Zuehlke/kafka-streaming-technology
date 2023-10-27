@@ -7,8 +7,8 @@ This training comes with a predefined environment provided in multiple docker co
 ## Windows with WSL 2.0 & Mac: Start the training environment
 Open a shell and run the following commands to check out the course repository and start the environment.
 ```
-git clone https://github.com/lfrei/kafka-training.git
-cd kafka-training
+git clone https://github.com/Zuehlke/kafka-streaming-technology.git
+cd kafka-streaming-technology
 docker-compose up -d
 ```
 
@@ -176,7 +176,7 @@ docker-compose down
 
 Delete your local persistent data:
 ```
-docker volume rm kafka-training_db-leach kafka-training_db_conf kafka-training_db_data
+docker volume rm kafka-streaming-technology_db_conf kafka-streaming-technology_db_data
 ```
 
 Cleanup hanging docker instances:

@@ -61,7 +61,7 @@ If your IP changes, you have to redo this
 
 ### Update to the latest exercises
 * login with ssh
-* `cd kafka-training/`
+* `cd kafka-streaming-technology/`
 * `docker-compose down`
 * `git pull --rebase`
 * `docker-compose up -d`
@@ -87,10 +87,10 @@ You should see the AKHQ Topics screen
 ### Test the setup of your local development environment
 
 * In your IDE-Terminal or shell, change to the following directory: `$ cd uc-iot/kafka-stream/`
-* Compile the sources: `~/kafka-training/uc-iot/kafka-stream$ mvn compile`
+* Compile the sources: `~/kafka-streaming-technology/uc-iot/kafka-stream$ mvn compile`
 
 ```
-~/kafka-training/uc-iot/kafka-stream$ mvn compile
+~/kafka-streaming-technology/uc-iot/kafka-stream$ mvn compile
 WARNING: An illegal reflective access operation has occurred
 WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
 WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
@@ -118,7 +118,7 @@ WARNING: All illegal access operations will be denied in a future release
 [INFO] Total time:  1.392 s
 [INFO] Finished at: 2023-04-06T17:15:29+02:00
 [INFO] ------------------------------------------------------------------------
-~/kafka-training/uc-iot/kafka-stream$ 
+~/kafka-streaming-technology/uc-iot/kafka-stream$ 
 ```
 
 
