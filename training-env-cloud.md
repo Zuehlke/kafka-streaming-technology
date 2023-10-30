@@ -21,7 +21,7 @@ The following service components should be installed on your training device bef
 
 From your instructor you will get access to a ubuntu-vm in the cloud, where all training resources are up and running:
 
-* login [url](https://mottbott.signin.aws.amazon.com/console)
+* login [url](https://kafka-training.signin.aws.amazon.com/console)
 
 * username: your abbreviation
 * pwd: in a separate message
