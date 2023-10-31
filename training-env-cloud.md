@@ -52,12 +52,13 @@ To enable tool access for the exercises, whitelist [the IP of your workstation](
 * Schema Registry: Custom TCP 8081 [your IP]
 * Rest Proxy:      Custom TCP 8082 [your IP]
 * Kafka Connect:   Custom TCP 8083 [your IP]
+* phpMyAdmin:      Custom TCP 8085 [your IP]
 * KSQL:            Custom TCP 8088 [your IP]
 * (Kafka Broker localhost: 9092 not needed) 
 * Kafka Broker:    Custom TCP 9094 [your IP]
-* phpMyadmin:      Custom TCP 3306 [your IP]
+* MariaDB:         Custom TCP 3306 [your IP]
 
-If your IP changes, you have to redo this
+If your IP changes, you have to redo this.
 
 ### Update to the latest exercises
 * login with ssh
