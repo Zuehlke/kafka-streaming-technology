@@ -70,7 +70,7 @@ You should see the AKHQ Topics screen
 
 ### Test the setup of your local development environment
 
-* Disable proxying to your company's images for downlaods via maven: rename `.m2/settingxml` to `.m2/___settingsxml`. You have to und this for your compony work.
+* Disable proxying to your company's images for downlaods via maven: rename `.m2/settingxml` to `.m2/___settingsxml`. You have to undo this for your compony work.
 * In your IDE-Terminal or shell, change to the following directory: `$ cd uc-iot/kafka-stream/`
 * Compile the sources: `~/kafka-streaming-technology/uc-iot/kafka-stream$ mvn compile`
 
