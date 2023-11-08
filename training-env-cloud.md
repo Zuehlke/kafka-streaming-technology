@@ -33,7 +33,7 @@ There are different VM's running, start the one with your name.
 
 ## Configure your environment
 
-**NOTE:** For the following steops you must turn of your vpn-connection and connect to the intenet outside of your company network
+💡 **Important note:** For the following steops you must turn of your vpn-connection and connect to the intenet outside of your company network
 
 
 ### SSH
