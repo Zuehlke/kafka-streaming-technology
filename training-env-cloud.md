@@ -23,7 +23,7 @@ From your instructor you will get access to a ubuntu-vm in the cloud, where all 
 
 * login [url](https://kafka-training.signin.aws.amazon.com/console)
 
-* username: your abbreviation
+* username: your name
 * pwd: in a separate message
 
 After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
@@ -33,6 +33,9 @@ There are different VM's running, start the one with your name.
 
 ## Configure your environment
 
+**NOTE:** For the following steops you must turn of your vpn-connection and connect to the intenet outside of your company network
+
+
 ### SSH
 
 For some exercises you need to login with ssh to your instance (the webconsole does not work as there are a limited number of consoles available):
@@ -40,25 +43,6 @@ For some exercises you need to login with ssh to your instance (the webconsole d
 * passphrase: in a separate message (the same as the password)
 * Login: `ssh -i [yourKey].pem -l ubuntu myVMsIP`
 
-
-Alternative: You might also download the ssh key `Connect ->  Download default key`
-  * in the case password protection is enforced, create a password-protected file: `openssl rsa -aes256 -in LightsailDefaultKey-eu-central-1.pem -out myProtectedKey.pem`
-
-
-### Tool access
-
-To enable tool access for the exercises, whitelist [the IP of your workstation](https://whatismyipaddress.com/) with the following port `Networking -> IPv4 Firewall -> Add rule`:
-* AKHQ:            Custom TCP 8080 [your IP]
-* Schema Registry: Custom TCP 8081 [your IP]
-* Rest Proxy:      Custom TCP 8082 [your IP]
-* Kafka Connect:   Custom TCP 8083 [your IP]
-* phpMyAdmin:      Custom TCP 8085 [your IP]
-* KSQL:            Custom TCP 8088 [your IP]
-* (Kafka Broker localhost: 9092 not needed) 
-* Kafka Broker:    Custom TCP 9094 [your IP]
-* MariaDB:         Custom TCP 3306 [your IP]
-
-If your IP changes, you have to redo this.
 
 ### Update to the latest exercises
 * login with ssh
@@ -76,7 +60,6 @@ Add the following entry in your hosts file:  `[ip of your VM] myVMsIP`
 * MAC in `/private/etc/hosts`
 
 
-
 ## Test your setup
 
 ### Test AKHQ
@@ -87,6 +70,7 @@ You should see the AKHQ Topics screen
 
 ### Test the setup of your local development environment
 
+* Disable proxying to your company's images for downlaods via maven: rename `.m2/settingxml` to `.m2/___settingsxml`. You have to und this for your compony work.
 * In your IDE-Terminal or shell, change to the following directory: `$ cd uc-iot/kafka-stream/`
 * Compile the sources: `~/kafka-streaming-technology/uc-iot/kafka-stream$ mvn compile`
 
