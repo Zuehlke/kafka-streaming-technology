@@ -28,7 +28,7 @@ From your instructor you will get access to a ubuntu-vm in the cloud, where all 
 
 After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
 
-There are different VM's running, start the one with your name.
+There are different VM's running, start the one with your name. Your VM is ready after about 10 minutes.
 
 
 ## Configure your environment
@@ -37,12 +37,8 @@ There are different VM's running, start the one with your name.
 
 For some exercises you need to login with ssh to your instance (the webconsole does not work as there are a limited number of consoles available):
 * you got your ssh key by mail
-* passphrase: in a separate message (the same as the password)
 * Login: `ssh -i [yourKey].pem -l ubuntu myVMsIP`
-
-
-Alternative: You might also download the ssh key `Connect ->  Download default key`
-  * in the case password protection is enforced, create a password-protected file: `openssl rsa -aes256 -in LightsailDefaultKey-eu-central-1.pem -out myProtectedKey.pem`
+* in the case password protection is enforced, create a password-protected file: `openssl rsa -aes256 -in [yourKey].pem -out [yourProtectedKey].pem`
 
 
 ### Tool access
@@ -54,7 +50,6 @@ To enable tool access for the exercises, whitelist [the IP of your workstation](
 * Kafka Connect:   Custom TCP 8083 [your IP]
 * phpMyAdmin:      Custom TCP 8085 [your IP]
 * KSQL:            Custom TCP 8088 [your IP]
-* (Kafka Broker localhost: 9092 not needed) 
 * Kafka Broker:    Custom TCP 9094 [your IP]
 * MariaDB:         Custom TCP 3306 [your IP]
 
@@ -67,7 +62,7 @@ If your IP changes, you have to redo this.
 * `git pull --rebase`
 * `docker-compose up -d`
 
-💡 **Important note:** If you update your environment by the above-mentioned steps, it can take up to 20 minutes until the whole environment in running. This includes AKHQ.
+💡 **Important note:** If you update your environment by the above-mentioned steps, it can take up to 15 minutes until the whole environment in running. This includes AKHQ.
 
 ### Modify your local hosts file (DNS entry)
 
