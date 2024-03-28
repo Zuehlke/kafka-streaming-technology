@@ -80,6 +80,8 @@ docker logs broker | grep -i ListenerName
 
 Produce a message and consume it again. Investigate the below given bash scripts as well as the properties files for producer/consumer.
 
+The first _Error while fetching metadata_ can be ignored, this is because of the auto-creation of the topic.
+
 ```
 docker exec -it broker bash
 cd /scripts
@@ -131,6 +133,7 @@ docker-compose up -d
 
 Activate ACLs, by removing the comment in the `broker` config within the [docker compose](docker-compose.yml) file:
 
+broker:
 ```
 #ACL Part
 KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
@@ -138,6 +141,16 @@ KAFKA_SSL_PRINCIPAL_MAPPING_RULES: 'RULE:^.*[Cc][Nn]=([a-zA-Z0-9.]*).*$$/$$1/L,D
 KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
 #End ACL Part
 ```
+
+controller:
+```
+#ACL Part
+KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
+KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+#End ACL Part
+```
+
+
 
 Now update your environment again with the new configuration:
 
@@ -162,9 +175,9 @@ Now let's apply ACLs for **another** producer:
 
 ```
 # apply acl
-kafka-acls --bootstrap-server localhost:9092 --add --allow-principal User:other-producer --operation all --topic kafka-security-topic
+kafka-acls --bootstrap-server broker:9092 --add --allow-principal User:other-producer --operation all --topic kafka-security-topic
 # checkout acls
-kafka-acls --bootstrap-server localhost:9092 --list -topic kafka-security-topic
+kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
 ```
 
 💡 This topic is now protected using ACLs.
@@ -179,9 +192,9 @@ Now let's apply ACLs for **our** producer as well:
 
 ```
 # apply acl
-kafka-acls --bootstrap-server localhost:9092 --add --allow-principal User:producer --operation all --topic kafka-security-topic
+kafka-acls --bootstrap-server broker:9092 --add --allow-principal User:producer --operation all --topic kafka-security-topic
 # checkout acls
-kafka-acls --bootstrap-server localhost:9092 --list -topic kafka-security-topic
+kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
 ```
 
 💡 Now you can see both **producer** and **other-producer** listed in the ACLs.
@@ -199,3 +212,4 @@ docker-compose up -d
 Links:
 * https://kafka.apache.org/documentation/#security_authz
 * https://docs.confluent.io/platform/current/kafka/authorization.html
+* https://docs.confluent.io/platform/current/kafka/authorization.html#kraft-principal-forwarding
