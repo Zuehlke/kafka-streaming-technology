@@ -57,15 +57,7 @@ AS select sensor_id, datetime, value from myplant_motors_stream where value = 's
   - joins the `mymotor_starting_stream` with the `mymotor_stopping_stream` within 2 minutes
   - Hint: use `INNER JOIN` and the `WITHIN` clause
 
-💡 It will take some time for the data to appear in those streams. To speed up the excercise, you may manually insert data into the stream
-```
-INSERT INTO myplant_motors_stream (sensor_id, datetime, value) 
-VALUES ('myMotor', 1712492657676, 'starting');
-```
-```
-INSERT INTO myplant_motors_stream (sensor_id, datetime, value) 
-VALUES ('myMotor', 1712492683114, 'stopping');
-```
+💡 It may take some time for the data to appear in those streams
 
 ## Aggregation
 
@@ -96,14 +88,6 @@ AS select sensor_id, datetime, value->string as value from myplant_stream where 
 
 💡Use the `LATEST_BY_OFFSET` aggregation function
 
-Solution
-```
-CREATE TABLE motor_latest_value_table AS SELECT sensor_id, LATEST_BY_OFFSET(value) as count from myplant_motors_stream group by sensor_id emit changes;
-```
-```
-SELECT * FROM motor_latest_value_table;
-```
-
 ## Windowed Aggregation
 
 Preparation:
@@ -116,7 +100,7 @@ WITH (KAFKA_TOPIC = 'myPlant', value_format='AVRO');
 
 Create a stream for sensors:
 ```
-CREATE STREAM IF NOT EXISTS  myplant_sensors_stream
+CREATE STREAM IF NOT EXISTS myplant_sensors_stream
 AS select sensor_id, datetime, value->long as value from myplant_stream where sensor_id = 'mySensor';
 ```
 
