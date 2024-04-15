@@ -41,30 +41,42 @@ Check if the Topic as been created:
 
 ## Exercise 2: Consume from Topic
 
-Now you want to read data from the `SENSOR_TOP_20` Topic. Do so with the following commands.
+curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" --data '{"name": "rest_proxy_test_consumer", "format": "json", "auto.offset.reset": "earliest"}' http://localhost:8082/consumers/rest_proxy_test_consumer
+
+curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" --data '{"topics":["REST_PROXY_TEST"]}' http://localhost:8082/consumers/rest_proxy_test_consumer/instances/rest_proxy_test_consumer/subscription
+
+curl -X GET -H "Accept: application/vnd.kafka.json.v2+json" http://localhost:8082/consumers/rest_proxy_test_consumer/instances/rest_proxy_test_consumer/records
+
+
+curl -X DELETE http://localhost:8082/consumers/rest_proxy_test_consumer/instances/rest_proxy_test_consumer/subscription
+
+
+-----
+
+Now you want to read data from the `REST_PROXY_TEST` Topic. Do so with the following commands.
 
 Create a consumer:
 
 ```
 curl -X POST  -H "Content-Type: application/vnd.kafka.v2+json" \
- --data '{"name": "top_20_consumer", "format": "avro", "auto.offset.reset": "earliest"}' \
- http://localhost:8082/consumers/top_20_consumer
+ --data '{"name": "rest_proxy_test_consumer", "format": "avro", "auto.offset.reset": "earliest"}' \
+ http://localhost:8082/consumers/rest_proxy_test_consumer
 ```
 
 💡 The data of this topics is formatted in Avro.
 
-Subscribe to the Topic `SENSOR_TOP_20`:
+Subscribe to the Topic `REST_PROXY_TEST`:
 
 ```
-curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" --data '{"topics":["SENSOR_TOP_20"]}' \
-http://localhost:8082/consumers/top_20_consumer/instances/top_20_consumer/subscription
+curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" --data '{"topics":["REST_PROXY_TEST"]}' \
+http://localhost:8082/consumers/rest_proxy_test_consumer/instances/rest_proxy_test_consumer/subscription
 ```
 
 Consume data:
 
 ```
-curl -X GET -H "Accept: application/vnd.kafka.avro.v2+json" \
-http://localhost:8082/consumers/top_20_consumer/instances/top_20_consumer/records
+curl -X GET -H "Accept: application/vnd.kafka.v2+json" \
+http://localhost:8082/consumers/rest_proxy_test_consumer/instances/rest_proxy_test_consumer/records
 ```
 
 💡 If you want to have a formatted output, install [jq JSON processor](https://stedolan.github.io/jq/) and append `... | jq` to the command.
