@@ -1,4 +1,4 @@
-# Exercise 3
+# Exercise 4
 
 Aggregate sensor values with tumbling window
 
