@@ -4,8 +4,8 @@ Identify when motor stops shortly after start
 
 ```
 SELECT starting.sensor_id AS sensor_id,
-starting.datetime AS starting,
-stopping.datetime AS stopping,
+CONVERT_TZ(FROM_UNIXTIME(starting.datetime), 'UTC', 'Europe/Zurich') AS starting,
+CONVERT_TZ(FROM_UNIXTIME(stopping.datetime), 'UTC', 'Europe/Zurich') AS stopping,
 (stopping.datetime - starting.datetime) / 1000 AS Uptime_Seconds
 FROM mymotor_starting_stream starting
 INNER JOIN mymotor_stopping_stream stopping
