@@ -59,6 +59,9 @@ AS select sensor_id, datetime, value from myplant_motors_stream where value = 's
   - joins the `mymotor_starting_stream` with the `mymotor_stopping_stream` within 2 minutes
   - Hint: use `INNER JOIN` and the `WITHIN` clause
 
+Expected output:
+![img.png](img/ksql-advanced-expected1.png)
+
 💡 It may take some time for the data to appear in those streams
 
 ### Bonus question
@@ -91,15 +94,20 @@ AS select sensor_id, datetime, value->string as value from myplant_stream where 
 ### Exercise 2 - Count motor state changes
 
 - Write a select statement that:
-  - Aggregates the records in the `myplant_motors_stream` counting by `value` field
+  - Counts the records in the`myplant_motors_stream` by the `value` field
+
+Expected output:
+![img.png](img/ksql-advanced-expected2.png)
 
 ### Excercise 3 - Latest value by offset
 
 - Write a select statement that:
-  - Aggregates the records in the `myplant_motors_stream` by the lastest record grouped by the `value` field
-  - Stores the result in a `Table`
+  - Selects the latest `value` in the `myplant_motors_stream`
+  - Stores the result in a `Table` (Materialized view)
+  - Hint: use the `LATEST_BY_OFFSET` aggregation function
 
-💡Use the `LATEST_BY_OFFSET` aggregation function
+Expected output:
+![img.png](img/ksql-advanced-expected3.png)
 
 ## Windowed Aggregation
 
@@ -122,12 +130,17 @@ AS select sensor_id, datetime, value->long as value from myplant_stream where se
 - Write a select statement that:
   - Aggregates the records in the `myplant_sensors_stream` by `sensor_id` averaging the `value` field
   - Uses a time window of 60 seconds
-  - Stores the result in a Table
+
+Expected output:
+![img.png](img/ksql-advanced-expected4.png)
 
 ### Exercise 5 - Window retention
 
 - Extend the statement from the previous excercise to:
   - Remove old time windows after 2 minutes
-  - Store the result in a Table
+  - Store the result in a `Table` (Materialized view)
+
+Expected output:
+![img.png](img/ksql-advanced-expected5.png)
 
 💡The `window retention period` must be greater than or equal to the `window size` plus the `grace period`.
