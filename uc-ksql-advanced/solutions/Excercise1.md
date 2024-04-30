@@ -1,6 +1,6 @@
 # Exercise 1
 
-Identify when motor stops shortly after start
+Identify when motor stops within 2 minutes after start
 
 ```
 SELECT starting.sensor_id AS sensor_id,
