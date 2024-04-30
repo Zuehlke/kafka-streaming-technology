@@ -2,6 +2,13 @@
 
 [⬅️ Back to Kafka overview](README.md)
 
+Contents:
+- Create Stream
+- Create Table
+- Filter
+- Transform
+- Join
+
 Make sure that the exercise environment is up and running:
 
 ```
