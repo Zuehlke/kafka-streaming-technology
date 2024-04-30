@@ -28,6 +28,8 @@ alert, if a motor stops shortly after he had started.
 
 Preparation:
 
+![img.png](img/streams.png)
+
 Create a Stream for the `myPlant` Topic:
 ```
 CREATE STREAM IF NOT EXISTS myplant_stream(sensor_id varchar, datetime bigint, value STRUCT<STRING VARCHAR, LONG BIGINT>) 
@@ -58,6 +60,17 @@ AS select sensor_id, datetime, value from myplant_motors_stream where value = 's
   - Hint: use `INNER JOIN` and the `WITHIN` clause
 
 💡 It may take some time for the data to appear in those streams
+
+### Bonus question
+
+![img.png](img/bonus.png)
+
+The solution of Exercise 1 has the following limitation
+- If there are multiple 'starting' events within the time window of 2 minutes,
+the query will match each one
+- A 'stopping' event should only match the most recent 'starting' event
+
+How would you solve this?
 
 ## Aggregation
 
