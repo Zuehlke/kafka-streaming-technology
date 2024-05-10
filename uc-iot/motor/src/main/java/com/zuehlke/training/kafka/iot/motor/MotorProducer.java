@@ -17,11 +17,11 @@ public class MotorProducer {
     private final KafkaTemplate<String, SensorMeasurement> producer;
 
     @Scheduled(fixedDelayString = "${random.int(${motor.max-interval-ms})}")
-    public void sendMeasurement() {
+    public void produceMeasurement() {
         String topic = motorConfig.getPlantId();
         String key = motorConfig.getMotorId();
         SensorMeasurement value = createMeasurement();
-        log.info("Sending measurement of {} for motor '{}' to topic '{}'", value, key, topic);
+        log.info("Sending record to topic '{}' with key '{}' and value: {}", topic, key, value);
         producer.send(topic, key, value);
     }
 

@@ -1,11 +1,17 @@
 spring:
+  application:
+    name: motor
   kafka:
     bootstrap-servers: localhost:9092
     producer:
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
     properties:
       schema.registry.url: http://localhost:8081
+      specific.avro.reader: true
 
 motor:
   plant-id: plant01
