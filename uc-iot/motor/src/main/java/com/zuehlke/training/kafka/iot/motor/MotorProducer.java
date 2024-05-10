@@ -21,7 +21,7 @@ public class MotorProducer {
 
     @Scheduled(fixedDelayString = "${random.int(${motor.max-interval-ms})}")
     public void sendMeasurement() {
-        SensorMeasurement measurement = getMeasurement();
+        SensorMeasurement measurement = createMeasurement();
 
         log.info("Sending measurement of {} for motor {} to topic {}",
                 measurement,
@@ -36,12 +36,7 @@ public class MotorProducer {
         );
     }
 
-    private SensorMeasurement getMeasurement() {
-        return new SensorMeasurement(motorConfig.getMotorId(), System.currentTimeMillis(), getMotorState());
-    }
-
-    private String getMotorState() {
-        List<String> states = motorConfig.getStates();
-        return states.get(ThreadLocalRandom.current().nextInt(states.size()));
+    private SensorMeasurement createMeasurement() {
+        return new SensorMeasurement(motorConfig.getMotorId(), System.currentTimeMillis(), motorConfig.getRandomMotorState());
     }
 }
