@@ -17,7 +17,7 @@ The following service components should be installed on your training device bef
 * Optional: HTTP client to send requests like Postman
 
 
-## Access to your environment
+## Access to your name
 
 From your instructor you will get access to a ubuntu-vm in the cloud, where all training resources are up and running:
 
