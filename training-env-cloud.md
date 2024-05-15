@@ -33,6 +33,12 @@ There are different VM's running, start the one with your name. Your VM is ready
 
 ## Configure your environment
 
+### Modify your local hosts file (DNS entry)
+
+Add the following entry in your hosts file:  `[ip of your VM] myVMsIP`
+* Windows in `C:\Windows\System32\drivers\etc\hosts`
+* MAC in `/private/etc/hosts`
+
 ### SSH
 
 For some exercises you need to login with ssh to your instance (the webconsole does not work as there are a limited number of consoles available):
@@ -64,11 +70,7 @@ If your IP changes, you have to redo this.
 
 💡 **Important note:** If you update your environment by the above-mentioned steps, it can take up to 15 minutes until the whole environment in running. This includes AKHQ.
 
-### Modify your local hosts file (DNS entry)
 
-Add the following entry in your hosts file:  `[ip of your VM] myVMsIP`
-* Windows in `C:\Windows\System32\drivers\etc\hosts`
-* MAC in `/private/etc/hosts`
 
 
 
