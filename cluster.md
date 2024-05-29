@@ -4,7 +4,7 @@
 
 ## Start the cluster
 
-If you are using the cloud environment, we suggest stopping docker compose by running `docker compose stop`   in `~/kafka-streaming-technology` folder. You can start the environment afterwards with `docker compose start`. 
+If you are using the cloud environment, we suggest stopping docker compose by running `docker compose stop`   in `~/kafka-streaming-technology` folder.
 
 Start 3 Zookeeper hosts
 
