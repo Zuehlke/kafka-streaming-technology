@@ -1,9 +1,8 @@
 ---
-version: '2'
 services:
   zookeeper:
     restart: always
-    image: confluentinc/cp-zookeeper:7.3.2
+    image: confluentinc/cp-zookeeper:7.6.2
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -15,7 +14,7 @@ services:
 
   broker:
     restart: always
-    image: confluentinc/cp-server:7.3.2
+    image: confluentinc/cp-kafka:7.6.2
     hostname: broker
     container_name: broker
     depends_on:
@@ -54,7 +53,7 @@ services:
       #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092,PLAINTEXT_CLOUD://myVMsIP:9094,SSL://broker:9093
       #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT_CLOUD:PLAINTEXT,SSL:SSL
       #End activate TLS
-      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      #KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
@@ -64,14 +63,14 @@ services:
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
       KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
-      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
-      CONFLUENT_METRICS_ENABLE: 'true'
+      #CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
+      #CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+      #CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
     restart: always
-    image: confluentinc/cp-schema-registry:7.3.2
+    image: confluentinc/cp-schema-registry:7.6.2
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -88,7 +87,7 @@ services:
 
   connect:
     restart: always
-    image: confluentinc/cp-kafka-connect:7.3.2
+    image: confluentinc/cp-kafka-connect:7.6.2
     container_name: kafka-connect-01
     depends_on:
       - broker
@@ -132,7 +131,7 @@ services:
         /etc/confluent/docker/run
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:7.3.2
+    image: confluentinc/cp-ksqldb-server:7.6.2
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
@@ -155,7 +154,7 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:7.3.2
+    image: confluentinc/cp-ksqldb-cli:7.6.2
     container_name: ksqldb-cli
     depends_on:
       - broker
@@ -166,7 +165,7 @@ services:
 
   rest-proxy:
     restart: always
-    image: confluentinc/cp-kafka-rest:7.3.2
+    image: confluentinc/cp-kafka-rest:7.6.2
     depends_on:
       - broker
       - schema-registry
