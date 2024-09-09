@@ -136,7 +136,7 @@ Activate ACLs, by removing the comment in the `broker` config within the [docker
 broker:
 ```
 #ACL Part
-KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
+KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
 KAFKA_SSL_PRINCIPAL_MAPPING_RULES: 'RULE:^.*[Cc][Nn]=([a-zA-Z0-9.]*).*$$/$$1/L,DEFAULT'   
 KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
 #End ACL Part
@@ -145,7 +145,7 @@ KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
 controller:
 ```
 #ACL Part
-KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
+KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
 KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
 #End ACL Part
 ```
