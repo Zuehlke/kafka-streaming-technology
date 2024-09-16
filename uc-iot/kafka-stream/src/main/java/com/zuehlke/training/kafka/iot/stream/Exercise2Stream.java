@@ -15,22 +15,26 @@ public class Exercise2Stream {
     @Bean
     public KStream<String, SensorMeasurement> exercise2(StreamsBuilder builder) {
 
-        GlobalKTable<String, String> metadata = builder.globalTable("metadata",
-                Consumed.with(
-                        Serdes.String(),
-                        Serdes.String()
-                )
-        );
+        // key     | value
+        //---------+------
+        // myMotor | state
+        // mySensor| cm
+        GlobalKTable<String, String> metadataAsKTable = builder.globalTable("metadata", Consumed.with(Serdes.String(), Serdes.String()));
+        KStream<String, SensorMeasurement> myPlantStream = builder.stream("myPlant");
+        // return key name
+        KeyValueMapper<String, SensorMeasurement, String> keyValueMapper = (key, value) -> key;
 
-        KStream<String, SensorMeasurement> stream = builder.stream("myPlant");
-
-        stream
-                .join(metadata,
-                        (key, value) -> key,
-                        (sensorMeasurement, type) -> SensorMeasurement.newBuilder(sensorMeasurement).setType(type).build())
+        myPlantStream
+                // lookup for each sensorMeasurement in metadata where myPlant.key=metadata.key
+                // and set type of the measurement to metadata.value
+                .join(metadataAsKTable, keyValueMapper, (sensorMeasurement, type) -> createSensorMeasurement(sensorMeasurement, type))
+                .peek((key, value) -> log.info("Mapped message with key={} and value={} to myPlant-metadata", key, value))
                 .to("myPlant-metadata");
+        return myPlantStream;
+    }
 
-        return stream;
+    private SensorMeasurement createSensorMeasurement(SensorMeasurement sensorMeasurement, String type) {
+        return SensorMeasurement.newBuilder(sensorMeasurement).setType(type).build();
     }
 
 }
