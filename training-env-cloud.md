@@ -21,9 +21,9 @@ The following service components should be installed on your training device bef
 
 From your instructor you will get access to a ubuntu-vm in the cloud, where all training resources are up and running:
 
-* login [url](https://kafka-training.signin.aws.amazon.com/console)
+* login [url](https://034362037676.signin.aws.amazon.com/console)
 
-* username: your name
+* username: your name abbreviation
 * pwd: in a separate message
 
 After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
