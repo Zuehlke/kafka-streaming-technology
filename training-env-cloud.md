@@ -41,7 +41,7 @@ For some exercises you need to login with ssh to your instance (the webconsole d
 
 ### Tool access
 
-On your cloud endpoint, the follwing run to conduct the labs:
+On your cloud endpoint, the follwing tools run to conduct the labs:
 * AKHQ:            Custom TCP 8080 [your IP]
 * Schema Registry: Custom TCP 8081 [your IP]
 * Rest Proxy:      Custom TCP 8082 [your IP]
