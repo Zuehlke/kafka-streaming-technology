@@ -19,17 +19,9 @@ The following service components should be installed on your training device bef
 
 ## Access to your environment
 
-From your instructor you will get access to a ubuntu-vm in the cloud, where all training resources are up and running:
-
-* login [url](https://034362037676.signin.aws.amazon.com/console)
-
-* username: your name abbreviation
-* pwd: in a separate message
-
-After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
-
-There are different VM's running, start the one with your name. Your VM is ready after about 10 minutes.
-
+From your instructor you will get 
+* the IP address of a cloud vm where your Kafka ecosystems run
+* the ssh key that allows you to access your vm
 
 ## Configure your environment
 
@@ -49,7 +41,7 @@ For some exercises you need to login with ssh to your instance (the webconsole d
 
 ### Tool access
 
-To enable tool access for the exercises, whitelist [the IP of your workstation](https://whatismyipaddress.com/) with the following port `Networking -> IPv4 Firewall -> Add rule`:
+On your cloud endpoint, the follwing run to conduct the labs:
 * AKHQ:            Custom TCP 8080 [your IP]
 * Schema Registry: Custom TCP 8081 [your IP]
 * Rest Proxy:      Custom TCP 8082 [your IP]
@@ -59,19 +51,7 @@ To enable tool access for the exercises, whitelist [the IP of your workstation](
 * Kafka Broker:    Custom TCP 9094 [your IP]
 * MariaDB:         Custom TCP 3306 [your IP]
 
-If your IP changes, you have to redo this.
-
-### Update to the latest exercises
-* login with ssh
-* `cd kafka-streaming-technology/`
-* `docker-compose down`
-* `git pull --rebase`
-* `docker-compose up -d`
-
-💡 **Important note:** If you update your environment by the above-mentioned steps, it can take up to 15 minutes until the whole environment in running. This includes AKHQ.
-
-
-
+The access to this tools is restricted to your company network. To do the following tests, you need to connect to your company via VPN or run the tests in your company's office.
 
 
 ## Test your setup
