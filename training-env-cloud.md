@@ -20,7 +20,7 @@ The following service components should be installed on your training device bef
 ## Access to your environment
 
 From your instructor you will get 
-* the IP address of a cloud vm where your Kafka ecosystems run
+* the IP address of a cloud vm where your Kafka ecosystem runs
 * the ssh key that allows you to access your vm
 
 ## Configure your environment
