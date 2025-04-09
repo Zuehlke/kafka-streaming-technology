@@ -117,8 +117,8 @@ services:
         mkdir /usr/share/java/kafka-connect-storage-common
         ## JDBC Connector
         cd /usr/share/java/kafka-connect-jdbc/
-        curl https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip | jar xv
-        curl https://d2p6pa21dvn84.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.12/confluentinc-kafka-connect-jdbc-10.7.12.zip | jar xv
+        curl -L https://dbschema.com/jdbc-drivers/mysqljdbcdriver.zip | jar xv
+        curl -L https://d2p6pa21dvn84.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.12/confluentinc-kafka-connect-jdbc-10.7.12.zip | jar xv
         ## File Connector
         cd /usr/share/java/kafka-connect-storage-common
         wget https://repo1.maven.org/maven2/org/apache/kafka/connect-file/3.4.0/connect-file-3.4.0.jar
