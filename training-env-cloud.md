@@ -19,9 +19,16 @@ The following service components should be installed on your training device bef
 
 ## Access to your environment
 
-From your instructor you will get 
-* the IP address of a cloud vm where your Kafka ecosystem runs
-* the ssh key that allows you to access your vm
+From your instructor to will get information how to access to a ubuntu-vm in the cloud:
+
+* Your login cridentials to manage your vm
+* The ssh key that allows you to access your vm
+* The IP address of a cloud vm where your Kafka ecosystem runs
+
+* Login [url](https://921344893381.signin.aws.amazon.com/console)
+* After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
+
+There are different VM's available, pick the one with your name and start it.
 
 ## Configure your environment
 
@@ -41,7 +48,8 @@ For some exercises you need to login with ssh to your instance (the webconsole d
 
 ### Tool access
 
-On your cloud endpoint, the follwing tools run to conduct the labs:
+To enable tool access for the exercises, whitelist [the IP of your workstation](https://whatismyipaddress.com/) with the following ports [on your vm](https://lightsail.aws.amazon.com/ls/webapp/home/instances): `Networking -> IPv4 Firewall -> Add rule`:
+
 * AKHQ:            Custom TCP 8080 [your IP]
 * Schema Registry: Custom TCP 8081 [your IP]
 * Rest Proxy:      Custom TCP 8082 [your IP]
@@ -51,7 +59,7 @@ On your cloud endpoint, the follwing tools run to conduct the labs:
 * Kafka Broker:    Custom TCP 9094 [your IP]
 * MariaDB:         Custom TCP 3306 [your IP]
 
-The access to this tools is restricted to your company network. To do the following tests, you need to connect to your company via VPN or run the tests in your company's office.
+If your IP changes, you have to redo this.
 
 
 ## Test your setup
@@ -117,3 +125,4 @@ WARNING: All illegal access operations will be denied in a future release
 ...
 ```
 
+turn off the vm when your finished the configuration
