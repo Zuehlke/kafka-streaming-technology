@@ -21,7 +21,8 @@ public class Exercise0Stream {
         stream
                 .filter((key, value) -> value != null)
                 .mapValues(SensorMeasurement::getValue)
-                .peek((key, value) -> log.info("Processing message with key={} and value={}", key, value));
+//                .peek((key, value) -> log.info("Processing message with key={} and value={}", key, value))
+        ;
 
         return stream;
     }

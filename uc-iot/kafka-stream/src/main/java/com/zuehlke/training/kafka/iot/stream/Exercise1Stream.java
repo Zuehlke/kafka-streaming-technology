@@ -18,10 +18,28 @@ public class Exercise1Stream {
 
         KStream<String, SensorMeasurement> stream = builder.stream("myPlant");
 
-        stream
-                .filter(((key, value) -> key.equals("mySensor")))
-                .filter(new HighMeasurement())
-                .to("myPlant-alert");
+        // TODO: write alerts for high measurement values to a new topic
+
+//        stream.peek((key, value) -> log.info("key={}, value={}", key, value));
+
+        stream.split()
+                .branch((key, measurement) -> "mySensor".equals(key),
+                        Branched.withConsumer(branch -> {
+                            branch.filter((key, measurement) -> (Long) measurement.getValue() > 800_000L)
+//                                    .peek((key, value) -> log.info("Found one and push ot to myPlant-alert"))
+                                    .to("myPlant-alert");
+                        }))
+                .branch((key, measurement) -> "myMotor".equals(key),
+                        Branched.withConsumer(branch -> {
+                            branch.filter((key, motor) -> "error".equals(motor.getValue().toString()))
+//                                    .peek((key, value) -> log.info("Found one and push ot to myPlant-alert"))
+                                    .to("myPlant-alert");
+                        }));
+
+//        stream.filter((key, measurement) -> "mySensor".equals(key))
+//                .filter((key, measurement) -> (Long)measurement.getValue() > 800_000L)
+//                .peek((key, value) -> log.info("Found one and push ot to myPlant-output"))
+//                .to("myPlant-alert");
 
         return stream;
     }
