@@ -1,9 +1,8 @@
 ---
-version: '2'
 services:
   zookeeper:
     restart: always
-    image: confluentinc/cp-zookeeper:7.3.2
+    image: confluentinc/cp-zookeeper:7.6.2
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -15,7 +14,7 @@ services:
 
   broker:
     restart: always
-    image: confluentinc/cp-server:7.3.2
+    image: confluentinc/cp-kafka:7.6.2
     hostname: broker
     container_name: broker
     depends_on:
@@ -54,7 +53,6 @@ services:
       #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092,PLAINTEXT_CLOUD://myVMsIP:9094,SSL://broker:9093
       #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT_CLOUD:PLAINTEXT,SSL:SSL
       #End activate TLS
-      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
@@ -64,14 +62,11 @@ services:
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
       KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
-      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
-      CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
     restart: always
-    image: confluentinc/cp-schema-registry:7.3.2
+    image: confluentinc/cp-schema-registry:7.6.2
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -88,8 +83,8 @@ services:
 
   connect:
     restart: always
-    image: confluentinc/cp-kafka-connect:7.3.2
-    container_name: kafka-connect-01
+    image: confluentinc/cp-kafka-connect:7.6.2
+    container_name: connect
     depends_on:
       - broker
       - schema-registry
@@ -99,7 +94,7 @@ services:
       CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN: "[%d] %p %X{connector.context}%m (%c:%L)%n"
       CONNECT_BOOTSTRAP_SERVERS: "broker:29092"
       CONNECT_REST_PORT: 8083
-      CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect-01"
+      CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
       CONNECT_GROUP_ID: compose-connect-group
       CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
       CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
@@ -122,8 +117,8 @@ services:
         mkdir /usr/share/java/kafka-connect-storage-common
         ## JDBC Connector
         cd /usr/share/java/kafka-connect-jdbc/
-        curl https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip | jar xv
-        curl https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.6.4/confluentinc-kafka-connect-jdbc-10.6.4.zip | jar xv
+        curl -L https://dbschema.com/jdbc-drivers/mysqljdbcdriver.zip | jar xv
+        curl -L https://d2p6pa21dvn84.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.12/confluentinc-kafka-connect-jdbc-10.7.12.zip | jar xv
         ## File Connector
         cd /usr/share/java/kafka-connect-storage-common
         wget https://repo1.maven.org/maven2/org/apache/kafka/connect-file/3.4.0/connect-file-3.4.0.jar
@@ -132,7 +127,7 @@ services:
         /etc/confluent/docker/run
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:7.3.2
+    image: confluentinc/cp-ksqldb-server:7.6.2
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
@@ -155,7 +150,7 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:7.3.2
+    image: confluentinc/cp-ksqldb-cli:7.6.2
     container_name: ksqldb-cli
     depends_on:
       - broker
@@ -166,7 +161,7 @@ services:
 
   rest-proxy:
     restart: always
-    image: confluentinc/cp-kafka-rest:7.3.2
+    image: confluentinc/cp-kafka-rest:7.6.2
     depends_on:
       - broker
       - schema-registry
@@ -182,7 +177,9 @@ services:
    
   akhq:
     restart: always
-    image: tchiotludo/akhq:0.24.0
+    image: tchiotludo/akhq:0.25.1
+    hostname: akhq
+    container_name: akhq
     depends_on:
       - broker
       - schema-registry
@@ -207,7 +204,9 @@ services:
       - connect
 
   mariadb:
-    image: mariadb:10.7
+    image: mariadb:11.5.2
+    hostname: mariadb
+    container_name: mariadb
     restart: always
     ports:
       - 3306:3306
@@ -223,6 +222,8 @@ services:
 
   sensor:
     image: ghcr.io/lfrei/kafka-training/sensor:latest
+    hostname: sensor
+    container_name: sensor
     restart: always
     depends_on:
       - broker
@@ -237,6 +238,8 @@ services:
 
   motor:
     image: ghcr.io/lfrei/kafka-training/motor:latest
+    hostname: motor
+    container_name: motor
     restart: always
     depends_on:
       - broker
@@ -251,10 +254,11 @@ services:
       MOTOR_STATES_2: stopping
       MOTOR_STATES_3: stopped
       MOTOR_STATES_4: error 
+  #   MOTOR_MAX_INTERVAL_MS: 30000
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: pma
+    container_name: phpamyadmin
     links:
       - mariadb
     environment:

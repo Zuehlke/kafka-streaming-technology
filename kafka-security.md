@@ -31,6 +31,7 @@ cp ../scripts/create-certs.sh .
 ```
 
 💡 Have a look at the script [create-certs.sh](/security/scripts/create-certs.sh) to understand what is generated
+💡 The certificates and key/certificate stores are mounted as volume into the broker
 
 Next, enable the SSL configuration, by removing the comments in the `broker` config within the [docker compose](docker-compose.yml) file:
 

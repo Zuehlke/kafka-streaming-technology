@@ -30,7 +30,7 @@ f7e7af1224bb   confluentinc/cp-ksqldb-cli:7.3.2             "/bin/sh"           
 5146bc086a96   tchiotludo/akhq                              "docker-entrypoint.s…"   24 minutes ago   Up 24 minutes (healthy)     0.0.0.0:8080->8080/tcp                           kafka-training-akhq-1
 bc424bb15f90   confluentinc/cp-ksqldb-server:7.3.2          "/etc/confluent/dock…"   24 minutes ago   Up 24 minutes               0.0.0.0:8088->8088/tcp                           ksqldb-server
 cfde6b5e48ca   ghcr.io/lfrei/kafka-training/sensor:latest   "/cnb/process/web"       24 minutes ago   Up 24 minutes                                                                kafka-training-sensor-1
-2f879c08c7bd   confluentinc/cp-kafka-connect:5.4.9          "/bin/bash -c '# JDB…"   24 minutes ago   Up 24 minutes (healthy)     0.0.0.0:8083->8083/tcp, 9092/tcp                 kafka-connect-01
+2f879c08c7bd   confluentinc/cp-kafka-connect:5.4.9          "/bin/bash -c '# JDB…"   24 minutes ago   Up 24 minutes (healthy)     0.0.0.0:8083->8083/tcp, 9092/tcp                 connect
 fc6737553e05   ghcr.io/lfrei/kafka-training/motor:latest    "/cnb/process/web"       24 minutes ago   Up 24 minutes                                                                kafka-training-motor-1
 a07a5245759e   confluentinc/cp-kafka-rest:7.3.2             "/etc/confluent/dock…"   24 minutes ago   Up 24 minutes               0.0.0.0:8082->8082/tcp                           rest-proxy
 947b14d484be   confluentinc/cp-schema-registry:7.3.2        "/etc/confluent/dock…"   24 minutes ago   Up 24 minutes               0.0.0.0:8081->8081/tcp                           schema-registry
@@ -193,13 +193,13 @@ Restart & Logs: You can use Docker Desktop to restart container and read logs. A
 docker ps
 
 # Example to restart Kafka Connect
-docker restart kafka-connect-01
+docker restart connect
 
 Print out all logs for Kafka Connect 
-docker logs kafka-connect-01
+docker logs connect
 
 # Follow the logs for Kafka Connect 
-docker logs -f kafka-connect-01
+docker logs -f connect
 
 ```
 
