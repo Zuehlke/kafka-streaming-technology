@@ -19,54 +19,18 @@ The following service components should be installed on your training device bef
 
 ## Access to your environment
 
-From your instructor you will get access to a ubuntu-vm in the cloud, where all training resources are up and running:
+From your instructor to will get information how to access to a ubuntu-vm in the cloud:
 
-* login [url](https://mottbott.signin.aws.amazon.com/console)
+* Your login cridentials to manage your vm
+* The ssh key that allows you to access your vm
+* The IP address of a cloud vm where your Kafka ecosystem runs
 
-* username: your abbreviation
-* pwd: in a separate message
+* Login [url](https://921344893381.signin.aws.amazon.com/console)
+* After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
 
-After login, you find your VM [here](https://lightsail.aws.amazon.com/ls/webapp/home/instances)
-
-There are different VM's running, start the one with your name.
-
+There are different VM's available, pick the one with your name and start it.
 
 ## Configure your environment
-
-### SSH
-
-For some exercises you need to login with ssh to your instance (the webconsole does not work as there are a limited number of consoles available):
-* you got your ssh key by mail
-* passphrase: in a separate message (the same as the password)
-* Login: `ssh -i [yourKey].pem -l ubuntu myVMsIP`
-
-
-Alternative: You might also download the ssh key `Connect ->  Download default key`
-  * in the case password protection is enforced, create a password-protected file: `openssl rsa -aes256 -in LightsailDefaultKey-eu-central-1.pem -out myProtectedKey.pem`
-
-
-### Tool access
-
-To enable tool access for the exercises, whitelist [the IP of your workstation](https://whatismyipaddress.com/) with the following port `Networking -> IPv4 Firewall -> Add rule`:
-* AKHQ:            Custom TCP 8080 [your IP]
-* Schema Registry: Custom TCP 8081 [your IP]
-* Rest Proxy:      Custom TCP 8082 [your IP]
-* Kafka Connect:   Custom TCP 8083 [your IP]
-* KSQL:            Custom TCP 8088 [your IP]
-* (Kafka Broker localhost: 9092 not needed) 
-* Kafka Broker:    Custom TCP 9094 [your IP]
-* phpMyadmin:      Custom TCP 3306 [your IP]
-
-If your IP changes, you have to redo this
-
-### Update to the latest exercises
-* login with ssh
-* `cd kafka-streaming-technology/`
-* `docker-compose down`
-* `git pull --rebase`
-* `docker-compose up -d`
-
-💡 **Important note:** If you update your environment by the above-mentioned steps, it can take up to 20 minutes until the whole environment in running. This includes AKHQ.
 
 ### Modify your local hosts file (DNS entry)
 
@@ -74,6 +38,28 @@ Add the following entry in your hosts file:  `[ip of your VM] myVMsIP`
 * Windows in `C:\Windows\System32\drivers\etc\hosts`
 * MAC in `/private/etc/hosts`
 
+### SSH
+
+For some exercises you need to login with ssh to your instance (the webconsole does not work as there are a limited number of consoles available):
+* you got your ssh key by mail
+* Login: `ssh -i [yourKey].pem -l ubuntu myVMsIP`
+* in the case password protection is enforced, create a password-protected file: `openssl rsa -aes256 -in [yourKey].pem -out [yourProtectedKey].pem`
+
+
+### Tool access
+
+To enable tool access for the exercises, whitelist [the IP of your workstation](https://whatismyipaddress.com/) with the following ports [on your vm](https://lightsail.aws.amazon.com/ls/webapp/home/instances): `Networking -> IPv4 Firewall -> Add rule`:
+
+* AKHQ:            Custom TCP 8080 [your IP]
+* Schema Registry: Custom TCP 8081 [your IP]
+* Rest Proxy:      Custom TCP 8082 [your IP]
+* Kafka Connect:   Custom TCP 8083 [your IP]
+* phpMyAdmin:      Custom TCP 8085 [your IP]
+* KSQL:            Custom TCP 8088 [your IP]
+* Kafka Broker:    Custom TCP 9094 [your IP]
+* MariaDB:         Custom TCP 3306 [your IP]
+
+If your IP changes, you have to redo this.
 
 
 ## Test your setup
@@ -139,5 +125,4 @@ WARNING: All illegal access operations will be denied in a future release
 ...
 ```
 
-> [!IMPORTANT]  
-> SHUT DOWN YOUR CLOUD VM PLEASE
+turn off the vm when your finished the configuration

@@ -4,7 +4,7 @@
 
 ## Start the cluster
 
-If you are using the cloud environment, we suggest stopping docker compose by running `docker compose stop`   in `~/kafka-streaming-technology` folder. You can start the environment afterwards with `docker compose start`. 
+If you are using the cloud environment, we suggest stopping docker compose by running `docker compose stop`   in `~/kafka-streaming-technology` folder.
 
 Start 3 Zookeeper hosts
 
@@ -20,7 +20,7 @@ docker run -d \
    -e ZOOKEEPER_INIT_LIMIT=5 \
    -e ZOOKEEPER_SYNC_LIMIT=2 \
    -e ZOOKEEPER_SERVERS="localhost:22888:23888;localhost:32888:33888;localhost:42888:43888" \
-   confluentinc/cp-zookeeper:7.3.2
+   confluentinc/cp-zookeeper:7.6.2
 
 docker run -d \
    --net=host \
@@ -31,7 +31,7 @@ docker run -d \
    -e ZOOKEEPER_INIT_LIMIT=5 \
    -e ZOOKEEPER_SYNC_LIMIT=2 \
    -e ZOOKEEPER_SERVERS="localhost:22888:23888;localhost:32888:33888;localhost:42888:43888" \
-   confluentinc/cp-zookeeper:7.3.2
+   confluentinc/cp-zookeeper:7.6.2
 
 docker run -d \
    --net=host \
@@ -42,7 +42,7 @@ docker run -d \
    -e ZOOKEEPER_INIT_LIMIT=5 \
    -e ZOOKEEPER_SYNC_LIMIT=2 \
    -e ZOOKEEPER_SERVERS="localhost:22888:23888;localhost:32888:33888;localhost:42888:43888" \
-   confluentinc/cp-zookeeper:7.3.2
+   confluentinc/cp-zookeeper:7.6.2
 ```
 
 Start 3 Broker instances
@@ -56,7 +56,7 @@ docker run -d \
     -e KAFKA_BROKER_ID=1 \
     -e KAFKA_ZOOKEEPER_CONNECT=localhost:22181,localhost:32181,localhost:42181 \
     -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:19092 \
-    confluentinc/cp-kafka:7.3.2
+    confluentinc/cp-kafka:7.6.2
 
 docker run -d \
     --net=host \
@@ -64,7 +64,7 @@ docker run -d \
     -e KAFKA_BROKER_ID=2 \
     -e KAFKA_ZOOKEEPER_CONNECT=localhost:22181,localhost:32181,localhost:42181 \
     -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:29092 \
-    confluentinc/cp-kafka:7.3.2
+    confluentinc/cp-kafka:7.6.2
 
  docker run -d \
      --net=host \
@@ -72,7 +72,7 @@ docker run -d \
      -e KAFKA_BROKER_ID=3 \
      -e KAFKA_ZOOKEEPER_CONNECT=localhost:22181,localhost:32181,localhost:42181 \
      -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:39092 \
-     confluentinc/cp-kafka:7.3.2
+     confluentinc/cp-kafka:7.6.2
 ```
 
 
@@ -81,7 +81,7 @@ docker run -d \
 First, we start an interactive shell that is attached to our cluster net and contains the kafka command line shell scripts
 
 ```
- docker run -it --net=host --rm  confluentinc/cp-kafka:7.3.2 /bin/bash
+ docker run -it --net=host --rm  confluentinc/cp-kafka:7.6.2 /bin/bash
 ```
 
 you will find the kafka shell scripts in the /bin directory

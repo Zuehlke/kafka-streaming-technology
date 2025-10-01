@@ -26,11 +26,12 @@ cd security/certs
 chmod u+rx ../scripts/*.sh
 cp ../scripts/create-certs.sh .
 
-# Run the script and type 5 times yes.
+# Run the script and type yes until the script finishes.
 ./create-certs.sh
 ```
 
 💡 Have a look at the script [create-certs.sh](/security/scripts/create-certs.sh) to understand what is generated
+💡 The certificates and key/certificate stores are mounted as volume into the broker
 
 Next, enable the SSL configuration, by removing the comments in the `broker` config within the [docker compose](docker-compose.yml) file:
 
@@ -199,8 +200,17 @@ kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
 
 💡 Now you can see both **producer** and **other-producer** listed in the ACLs.
 
-✅ We can now write messages to the protected topic from our producer.
+✅ We can now write messages to the protected topic from our producer. 
 
+But how about consuming?
+We also need to apply ACLs for our consumer:
+
+```
+# apply acl
+kafka-acls --bootstrap-server broker:9092 --add --allow-principal User:consumer --operation all --topic kafka-security-topic
+# checkout acls
+kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
+```
 ## Clean up
 
 Reset your environment:
