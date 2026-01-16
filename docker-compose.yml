@@ -106,7 +106,7 @@ services:
   connect:
     restart: always
     image: confluentinc/cp-kafka-connect:8.0.3
-    container_name: kafka-connect-01
+    container_name: connect
     depends_on:
       - broker
       - schema-registry
