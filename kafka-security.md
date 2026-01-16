@@ -72,9 +72,9 @@ To make sure the change has been applied correctly, have a look at the output:
 docker logs broker | grep -i ListenerName
 
 # Excpected result:
-[2022-10-05 17:54:39,794] INFO [SocketServer listenerType=ZK_BROKER, nodeId=1] Started data-plane acceptor and processor(s) for endpoint : ListenerName(PLAINTEXT) (kafka.network.SocketServer)
-[2022-10-05 17:54:39,796] INFO [SocketServer listenerType=ZK_BROKER, nodeId=1] Started data-plane acceptor and processor(s) for endpoint : ListenerName(PLAINTEXT_HOST) (kafka.network.SocketServer)
-[2022-10-05 17:54:39,797] INFO [SocketServer listenerType=ZK_BROKER, nodeId=1] Started data-plane acceptor and processor(s) for endpoint : ListenerName(SSL) (kafka.network.SocketServer)
+[2022-10-05 17:54:39,794] INFO [SocketServer listenerType=BROKER, nodeId=1] Started data-plane acceptor and processor(s) for endpoint : ListenerName(PLAINTEXT) (kafka.network.SocketServer)
+[2022-10-05 17:54:39,796] INFO [SocketServer listenerType=BROKER, nodeId=1] Started data-plane acceptor and processor(s) for endpoint : ListenerName(PLAINTEXT_HOST) (kafka.network.SocketServer)
+[2022-10-05 17:54:39,797] INFO [SocketServer listenerType=BROKER, nodeId=1] Started data-plane acceptor and processor(s) for endpoint : ListenerName(SSL) (kafka.network.SocketServer)
 ```
 
 💡 You should now see a new **SSL** Listener. The other Listeners (for plaintext) are still available.
