@@ -9,7 +9,7 @@ Open a shell and run the following commands to check out the course repository a
 ```
 git clone https://github.com/Zuehlke/kafka-streaming-technology.git
 cd kafka-streaming-technology
-docker-compose up -d
+docker compose up -d
 ```
 
 💡 Detailed instruction to **fulfill all system requirements** are described further down.
@@ -167,11 +167,11 @@ Further information can be found on the product website https://akhq.io/
 
 Restart your environment: 
 ```
-docker-compose restart
+docker compose restart
 ```
 Stop and remove resources of your environment
 ```
-docker-compose down
+docker compose down
 ```
 
 Delete your local persistent data:

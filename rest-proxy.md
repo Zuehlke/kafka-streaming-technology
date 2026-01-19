@@ -5,7 +5,7 @@
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Exercise 1: Create Topic

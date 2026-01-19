@@ -13,7 +13,7 @@ Goals
 As always, make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Enable TLS encryption
@@ -62,7 +62,7 @@ KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTE
 Now update your environment with the new configuration:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 To make sure the change has been applied correctly, have a look at the output:
@@ -125,7 +125,7 @@ ssl.key.password=confluent
 Now update your environment again with the new configuration:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ✅ Produce and consume some messages as described above. Now with **client authentication** enabled.
@@ -156,7 +156,7 @@ KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
 Now update your environment again with the new configuration:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Produce a message:
@@ -216,7 +216,7 @@ kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
 Reset your environment:
 ```
 git checkout docker-compose.yml
-docker-compose up -d
+docker compose up -d
 ```
 
 Links:
