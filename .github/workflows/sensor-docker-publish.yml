@@ -12,6 +12,7 @@ on:
 
     paths:
       - 'uc-iot/sensor/**/*'
+    workflow_dispatch:
 
 env:
   IMAGE_NAME: sensor
