@@ -13,6 +13,8 @@ on:
     paths:
       - 'uc-iot/motor/**/*'
 
+  workflow_dispatch:
+
 env:
   IMAGE_NAME: motor
 
