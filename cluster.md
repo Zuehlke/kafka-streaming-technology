@@ -8,9 +8,7 @@ If you are using the cloud environment, we suggest stopping docker compose by ru
 
 Start 3 controller hosts
 
-<!--  TODO: Update image -->
-
-![3 Zookeeper](/img/zookeepers.jpg)
+![3 Controllers](/img/controllers.png)
 
 ```sh
 # Generate a cluster ID (run once and use the same ID for all controllers)
@@ -53,9 +51,7 @@ docker run -d \
 
 Start 3 broker instances
 
-<!--  TODO: Update image -->
-
-![3 Broker and Zookeeper](/img/brokers.jpg)
+![3 Broker and Controller](/img/cluster.png)
 
 ```sh
 docker run -d \
