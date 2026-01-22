@@ -11,10 +11,6 @@ Start 3 controller hosts
 ![3 Controllers](/img/controllers.png)
 
 ```sh
-# Generate a cluster ID (run once and use the same ID for all controllers)
-CLUSTER_ID=$(docker run --rm confluentinc/cp-kafka:7.6.2 kafka-storage random-uuid)
-echo "Cluster ID: $CLUSTER_ID"
-
 docker run -d \
    --net=host \
    --name=ctrl-1 \
@@ -23,7 +19,7 @@ docker run -d \
    -e KAFKA_CONTROLLER_QUORUM_VOTERS="1@localhost:29093,2@localhost:39093,3@localhost:49093" \
    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
    -e KAFKA_LISTENERS=CONTROLLER://localhost:29093 \
-   -e CLUSTER_ID=$CLUSTER_ID \
+   -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
    confluentinc/cp-kafka:7.6.2
 
 docker run -d \
@@ -34,7 +30,7 @@ docker run -d \
    -e KAFKA_CONTROLLER_QUORUM_VOTERS="1@localhost:29093,2@localhost:39093,3@localhost:49093" \
    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
    -e KAFKA_LISTENERS=CONTROLLER://localhost:39093 \
-   -e CLUSTER_ID=$CLUSTER_ID \
+   -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
    confluentinc/cp-kafka:7.6.2
 
 docker run -d \
@@ -45,7 +41,7 @@ docker run -d \
    -e KAFKA_CONTROLLER_QUORUM_VOTERS="1@localhost:29093,2@localhost:39093,3@localhost:49093" \
    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
    -e KAFKA_LISTENERS=CONTROLLER://localhost:49093 \
-   -e CLUSTER_ID=$CLUSTER_ID \
+   -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
    confluentinc/cp-kafka:7.6.2
 ```
 
@@ -64,7 +60,7 @@ docker run -d \
     -e KAFKA_LISTENERS=PLAINTEXT://localhost:19092 \
     -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:19092 \
     -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
-    -e CLUSTER_ID=$CLUSTER_ID \
+    -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
     confluentinc/cp-kafka:7.6.2
 
 docker run -d \
@@ -77,7 +73,7 @@ docker run -d \
     -e KAFKA_LISTENERS=PLAINTEXT://localhost:29092 \
     -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:29092 \
     -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
-    -e CLUSTER_ID=$CLUSTER_ID \
+    -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
     confluentinc/cp-kafka:7.6.2
 
 docker run -d \
@@ -90,7 +86,7 @@ docker run -d \
     -e KAFKA_LISTENERS=PLAINTEXT://localhost:39092 \
     -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:39092 \
     -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
-    -e CLUSTER_ID=$CLUSTER_ID \
+    -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
     confluentinc/cp-kafka:7.6.2
 ```
 
