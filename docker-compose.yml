@@ -1,72 +1,95 @@
 ---
+version: '3'
 services:
-  zookeeper:
+  
+  controller:
     restart: always
-    image: confluentinc/cp-zookeeper:7.6.2
-    hostname: zookeeper
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
+    image: confluentinc/cp-server:8.0.3
+    hostname: controller
+    container_name: controller
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_ADMIN_ENABLE_SERVER: 'false'
+      KAFKA_PROCESS_ROLES: "controller"
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: "CONTROLLER://controller:29092"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller:29092"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      #ACL Part
+      #KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
+      #KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+      #End ACL Part
+      CLUSTER_ID: "lZdawU0oS4mD9Qz34uLD_w" 
 
+  
   broker:
-    restart: always
-    image: confluentinc/cp-kafka:7.6.2
+    image: confluentinc/cp-server:8.0.3
     hostname: broker
     container_name: broker
-    depends_on:
-      - zookeeper
-    volumes:
-     - ./security/certs/:/etc/kafka/secrets 
-     - ./security/scripts:/scripts
     ports:
       - "9092:9092"
       - "9093:9093"
       - "9094:9094"
-      - "9101:9101"
+    depends_on:
+      - controller
+    volumes:
+     - ./security/certs/:/etc/kafka/secrets 
+     - ./security/scripts:/scripts
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_NODE_ID: 4
+      KAFKA_PROCESS_ROLES: "broker"
       #Activate TLS   
-      #KAFKA_SSL_KEYSTORE_FILENAME: kafka.broker.keystore.jks 
+      #KAFKA_SSL_KEYSTORE_FILENAME: kafka.broker.keystore.jks
       #KAFKA_SSL_KEYSTORE_CREDENTIALS: broker_keystore_creds
       #KAFKA_SSL_KEY_CREDENTIALS: broker_sslkey_creds
       #KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.broker.truststore.jks
       #KAFKA_SSL_TRUSTSTORE_CREDENTIALS: broker_truststore_creds
       #End activate TLS
       #Client Auth
-      #KAFKA_SSL_CLIENT_AUTH: 'required'  
+      #KAFKA_SSL_CLIENT_AUTH: 'required'
       #End client Auth      
       #ACL Part
-      #KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
-      #KAFKA_SSL_PRINCIPAL_MAPPING_RULES: 'RULE:^.*[Cc][Nn]=([a-zA-Z0-9.]*).*$$/$$1/L,DEFAULT'   
+      #KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
+      #KAFKA_SSL_PRINCIPAL_MAPPING_RULES: 'RULE:^.*[Cc][Nn]=([a-zA-Z0-9.]*).*$$/$$1/L,DEFAULT'
       #KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
       #End ACL Part
       #Deactivate if TLS is enabled.
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092,PLAINTEXT_CLOUD://myVMsIP:9094
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP:  PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT_CLOUD:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_CLOUD://myVMsIP:9094,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_CLOUD:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://0.0.0.0:29092,PLAINTEXT_CLOUD://broker:9094
       #End deactivate if TLS is enabled.
-      #Activate for TLS
-      #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092,PLAINTEXT_CLOUD://myVMsIP:9094,SSL://broker:9093
-      #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT_CLOUD:PLAINTEXT,SSL:SSL
-      #End activate TLS
+
+      #Activate for TLS local environment
+      #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://localhost:29092,SSL://broker:9093
+      #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,SSL:SSL
+      #KAFKA_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://0.0.0.0:29092,SSL://broker:9093
+      #End activate local TLS
+
+      #Activate for TLS cloud environment
+      #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://localhost:29092,SSL://broker:9093,PLAINTEXT_CLOUD://myVMsIP:9094
+      #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,SSL:SSL,PLAINTEXT_CLOUD:PLAINTEXT
+      #KAFKA_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://0.0.0.0:29092,SSL://broker:9093,PLAINTEXT_CLOUD://myVMsIP:9094
+      #End activate cloud TLS
+
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller:29092"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      CLUSTER_ID: "lZdawU0oS4mD9Qz34uLD_w"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_CLUSTER_LINK_METADATA_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_CLUSTER_LINK_METADATA_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_DURABILITY_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_TIER_METADATA_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_JMX_PORT: 9101
-      KAFKA_JMX_HOSTNAME: localhost
-      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+ 
+
+#ACL Authorizer gibt es nicht mehr? 
+# https://docs.confluent.io/platform/current/kafka/authorization.html
 
   schema-registry:
     restart: always
-    image: confluentinc/cp-schema-registry:7.6.2
+    image: confluentinc/cp-schema-registry:8.0.3
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -77,13 +100,12 @@ services:
       - ./uc-iot/schemas/avro:/schemas/avro
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:9092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
-
 
   connect:
     restart: always
-    image: confluentinc/cp-kafka-connect:7.6.2
+    image: confluentinc/cp-kafka-connect:8.0.3
     container_name: connect
     depends_on:
       - broker
@@ -92,9 +114,9 @@ services:
       - 8083:8083
     environment:
       CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN: "[%d] %p %X{connector.context}%m (%c:%L)%n"
-      CONNECT_BOOTSTRAP_SERVERS: "broker:29092"
+      CONNECT_BOOTSTRAP_SERVERS: "broker:9092"
       CONNECT_REST_PORT: 8083
-      CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
+      CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect-01"
       CONNECT_GROUP_ID: compose-connect-group
       CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
       CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
@@ -117,8 +139,8 @@ services:
         mkdir /usr/share/java/kafka-connect-storage-common
         ## JDBC Connector
         cd /usr/share/java/kafka-connect-jdbc/
-        curl -L https://dbschema.com/jdbc-drivers/mysqljdbcdriver.zip | jar xv
-        curl -L https://d2p6pa21dvn84.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.12/confluentinc-kafka-connect-jdbc-10.7.12.zip | jar xv
+        curl https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip | jar xv
+        curl https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.6.4/confluentinc-kafka-connect-jdbc-10.6.4.zip | jar xv
         ## File Connector
         cd /usr/share/java/kafka-connect-storage-common
         wget https://repo1.maven.org/maven2/org/apache/kafka/connect-file/3.4.0/connect-file-3.4.0.jar
@@ -127,7 +149,7 @@ services:
         /etc/confluent/docker/run
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:7.6.2
+    image: confluentinc/cp-ksqldb-server:8.0.3
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
@@ -137,7 +159,7 @@ services:
       - "8088:8088"
     environment:
       KSQL_CONFIG_DIR: "/etc/ksql"
-      KSQL_BOOTSTRAP_SERVERS: "broker:29092"
+      KSQL_BOOTSTRAP_SERVERS: "broker:9092"
       KSQL_HOST_NAME: ksqldb-server
       KSQL_LISTENERS: "http://0.0.0.0:8088"
       KSQL_CACHE_MAX_BYTES_BUFFERING: 0
@@ -150,7 +172,7 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:7.6.2
+    image: confluentinc/cp-ksqldb-cli:8.0.3
     container_name: ksqldb-cli
     depends_on:
       - broker
@@ -161,7 +183,7 @@ services:
 
   rest-proxy:
     restart: always
-    image: confluentinc/cp-kafka-rest:7.6.2
+    image: confluentinc/cp-kafka-rest:8.0.3
     depends_on:
       - broker
       - schema-registry
@@ -171,15 +193,13 @@ services:
     container_name: rest-proxy
     environment:
       KAFKA_REST_HOST_NAME: rest-proxy
-      KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:9092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
    
   akhq:
     restart: always
-    image: tchiotludo/akhq:0.25.1
-    hostname: akhq
-    container_name: akhq
+    image: tchiotludo/akhq:0.24.0
     depends_on:
       - broker
       - schema-registry
@@ -190,7 +210,7 @@ services:
           connections:
             docker-kafka-server:
               properties:
-                bootstrap.servers: "broker:29092"
+                bootstrap.servers: "broker:9092"
               schema-registry:
                 url: "http://schema-registry:8081"
               connect:
@@ -204,9 +224,7 @@ services:
       - connect
 
   mariadb:
-    image: mariadb:11.5.2
-    hostname: mariadb
-    container_name: mariadb
+    image: mariadb:12.1
     restart: always
     ports:
       - 3306:3306
@@ -222,14 +240,12 @@ services:
 
   sensor:
     image: ghcr.io/lfrei/kafka-training/sensor:latest
-    hostname: sensor
-    container_name: sensor
     restart: always
     depends_on:
       - broker
       - schema-registry
     environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:29092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:9092
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       SENSOR_SENSOR_ID: mySensor
       SENSOR_PLANT_ID: myPlant
@@ -238,14 +254,12 @@ services:
 
   motor:
     image: ghcr.io/lfrei/kafka-training/motor:latest
-    hostname: motor
-    container_name: motor
     restart: always
     depends_on:
       - broker
       - schema-registry
     environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:29092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:9092
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       MOTOR_MOTOR_ID: myMotor
       MOTOR_PLANT_ID: myPlant
@@ -254,11 +268,10 @@ services:
       MOTOR_STATES_2: stopping
       MOTOR_STATES_3: stopped
       MOTOR_STATES_4: error 
-  #   MOTOR_MAX_INTERVAL_MS: 30000
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpamyadmin
+    image: phpmyadmin/phpmyadmin:5.2.3
+    container_name: pma
     links:
       - mariadb
     environment:

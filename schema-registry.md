@@ -13,13 +13,13 @@ docker rm $(docker ps -a -q)
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Connect to the schema registry
 
 ```
-docker-compose exec schema-registry bash 
+docker compose exec schema-registry bash 
 ```
 
 For this exercise, the schema registry is already bundled with some [schemas](uc-iot/schemas/avro).

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.2</version>
+        <version>4.0.1</version>
         <relativePath/>
     </parent>
     <groupId>com.zuehlke.training.kafka.iot</groupId>
@@ -14,7 +14,7 @@
     <name>sensor</name>
     <description>sensor</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>23</java.version>
     </properties>
     <repositories>
         <repository>
@@ -34,17 +34,17 @@
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
-            <version>1.11.1</version>
+            <version>1.12.1</version>
         </dependency>
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
-            <version>7.2.1</version>
+            <version>7.5.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.42</version>
         </dependency>
     </dependencies>
 
@@ -62,7 +62,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.30</version>
+                            <version>1.18.42</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -70,7 +70,7 @@
             <plugin>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro-maven-plugin</artifactId>
-                <version>1.11.1</version>
+                <version>1.12.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>

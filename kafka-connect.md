@@ -5,7 +5,7 @@
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 💡 **Important:** Every command needs to be executed from the Kafka Broker or Kafka Connect **Docker Container**. Open two consoles:
@@ -19,9 +19,9 @@ Let's get started and create a file topic:
 
 ```
 # From broker container
-kafka-topics --bootstrap-server localhost:9092 --create --topic file-topic --partitions 3 --replication-factor 1
+kafka-topics --bootstrap-server broker:9092 --create --topic file-topic --partitions 3 --replication-factor 1
 # Inspect the new topis
-kafka-topics --bootstrap-server localhost:9092 --topic file-topic --describe
+kafka-topics --bootstrap-server broker:9092 --topic file-topic --describe
 ```
 
 Access to Kafka Connect container and create an empty file:
@@ -118,7 +118,7 @@ You can write more messages to the `/tmp/input` file or produce them to the topi
 
 ```
 # From broker container
-kafka-console-producer --bootstrap-server localhost:9092 --topic file-topic
+kafka-console-producer --bootstrap-server broker:9092 --topic file-topic
 ```
 
 ## Clean up
