@@ -13,6 +13,8 @@ on:
     paths:
       - 'uc-iot/motor/**/*'
 
+  workflow_dispatch:
+
 env:
   IMAGE_NAME: motor
 
@@ -25,16 +27,16 @@ jobs:
         working-directory: uc-iot/motor
 
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up JDK 1.11
+      - name: Set up JDK 25
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '25'
       - name: Build Docker Image
         run: mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=$IMAGE_NAME
 
