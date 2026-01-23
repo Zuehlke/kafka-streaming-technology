@@ -20,10 +20,6 @@ The following service components should be installed on your training device bef
 
 From your instructor to will get information how to access to a ubuntu-vm in the cloud:
 
-- Your login credentials to manage your vm
-- The ssh key that allows you to access your vm
-- The IP address of a cloud vm where your Kafka ecosystem runs
-
 - Login <a href="https://zuhlke.awsapps.com/start/#/?tab=accounts" target="_blank">url</a>
 - After login, you find your VM <a href="https://lightsail.aws.amazon.com/ls/webapp/home/instances" target="_blank">here</a>
 
