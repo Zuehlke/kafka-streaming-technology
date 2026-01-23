@@ -124,4 +124,4 @@ WARNING: All illegal access operations will be denied in a future release
 ...
 ```
 
-turn off the vm when your finished the configuration
+- turn off the vm when you finished the configuration
