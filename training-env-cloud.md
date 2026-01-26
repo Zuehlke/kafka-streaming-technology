@@ -21,6 +21,7 @@ The following service components should be installed on your training device bef
 From your instructor to will get information how to access to a ubuntu-vm in the cloud:
 
 - Login <a href="https://zuhlke.awsapps.com/start/#/?tab=accounts" target="_blank">url</a>
+- Click on the Account named `I10ZCH_DEVOP_2024 / Zuhlke_K8s_Trainings` and then on the Role named `Contributor`<br>![AWS Login](/img/aws-login.png)
 - After login, you find your VM <a href="https://lightsail.aws.amazon.com/ls/webapp/home/instances" target="_blank">here</a>
 
 There are different VM's available, pick the one with your name and start it.
