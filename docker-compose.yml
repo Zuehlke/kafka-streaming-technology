@@ -1,12 +1,13 @@
----
-version: '3'
 services:
-  
   controller:
     restart: always
     image: confluentinc/cp-server:8.0.3
     hostname: controller
     container_name: controller
+    networks:
+      - kafka
+    ports:
+      - "29092:29092"
     environment:
       KAFKA_PROCESS_ROLES: "controller"
       KAFKA_NODE_ID: 1
@@ -17,9 +18,8 @@ services:
       #KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
       #KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
       #End ACL Part
-      CLUSTER_ID: "lZdawU0oS4mD9Qz34uLD_w" 
+      CLUSTER_ID: "lZdawU0oS4mD9Qz34uLD_w"
 
-  
   broker:
     image: confluentinc/cp-server:8.0.3
     hostname: broker
@@ -31,12 +31,19 @@ services:
     depends_on:
       - controller
     volumes:
-     - ./security/certs/:/etc/kafka/secrets 
-     - ./security/scripts:/scripts
+      - ./security/certs/:/etc/kafka/secrets
+      - ./security/scripts:/scripts
+    networks:
+      - kafka
+    deploy:
+      resources:
+        reservations:
+          # cpus: "0.25"
+          memory: 8G
     environment:
       KAFKA_NODE_ID: 4
       KAFKA_PROCESS_ROLES: "broker"
-      #Activate TLS   
+      #Activate TLS
       #KAFKA_SSL_KEYSTORE_FILENAME: kafka.broker.keystore.jks
       #KAFKA_SSL_KEYSTORE_CREDENTIALS: broker_keystore_creds
       #KAFKA_SSL_KEY_CREDENTIALS: broker_sslkey_creds
@@ -45,7 +52,7 @@ services:
       #End activate TLS
       #Client Auth
       #KAFKA_SSL_CLIENT_AUTH: 'required'
-      #End client Auth      
+      #End client Auth
       #ACL Part
       #KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
       #KAFKA_SSL_PRINCIPAL_MAPPING_RULES: 'RULE:^.*[Cc][Nn]=([a-zA-Z0-9.]*).*$$/$$1/L,DEFAULT'
@@ -82,16 +89,17 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
- 
 
-#ACL Authorizer gibt es nicht mehr? 
-# https://docs.confluent.io/platform/current/kafka/authorization.html
+  #ACL Authorizer gibt es nicht mehr?
+  # https://docs.confluent.io/platform/current/kafka/authorization.html
 
   schema-registry:
     restart: always
     image: confluentinc/cp-schema-registry:8.0.3
     hostname: schema-registry
     container_name: schema-registry
+    networks:
+      - kafka
     depends_on:
       - broker
     ports:
@@ -100,13 +108,15 @@ services:
       - ./uc-iot/schemas/avro:/schemas/avro
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:9092'
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:9092"
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   connect:
     restart: always
     image: confluentinc/cp-kafka-connect:8.0.3
     container_name: connect
+    networks:
+      - kafka
     depends_on:
       - broker
       - schema-registry
@@ -122,15 +132,15 @@ services:
       CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
       CONNECT_STATUS_STORAGE_TOPIC: docker-connect-status
       CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
       CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
       CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
       CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_PLUGIN_PATH: '/usr/share/java'
+      CONNECT_PLUGIN_PATH: "/usr/share/java"
     command:
       - /bin/bash
       - -c
@@ -152,6 +162,8 @@ services:
     image: confluentinc/cp-ksqldb-server:8.0.3
     hostname: ksqldb-server
     container_name: ksqldb-server
+    networks:
+      - kafka
     depends_on:
       - broker
       - connect
@@ -168,12 +180,14 @@ services:
       KSQL_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
       KSQL_KSQL_CONNECT_URL: "http://connect:8083"
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
 
   ksqldb-cli:
     image: confluentinc/cp-ksqldb-cli:8.0.3
     container_name: ksqldb-cli
+    networks:
+      - kafka
     depends_on:
       - broker
       - connect
@@ -187,19 +201,22 @@ services:
     depends_on:
       - broker
       - schema-registry
+    networks:
+      - kafka
     ports:
       - 8082:8082
     hostname: rest-proxy
     container_name: rest-proxy
     environment:
       KAFKA_REST_HOST_NAME: rest-proxy
-      KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:9092'
+      KAFKA_REST_BOOTSTRAP_SERVERS: "broker:9092"
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
-      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
-   
+      KAFKA_REST_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+
   akhq:
     restart: always
     image: tchiotludo/akhq:0.24.0
+    container_name: akhq
     depends_on:
       - broker
       - schema-registry
@@ -218,14 +235,19 @@ services:
                   url: "http://connect:8083"
     ports:
       - 8080:8080
-    links:
-      - broker
-      - schema-registry
-      - connect
+    networks:
+      - kafka
+    # links:
+    #   - broker
+    #   - schema-registry
+    #   - connect
 
   mariadb:
     image: mariadb:12.1
     restart: always
+    container_name: mariadb
+    networks:
+      - kafka
     ports:
       - 3306:3306
     volumes:
@@ -241,6 +263,7 @@ services:
   sensor:
     image: ghcr.io/lfrei/kafka-training/sensor:latest
     restart: always
+    container_name: k-sensor
     depends_on:
       - broker
       - schema-registry
@@ -250,11 +273,12 @@ services:
       SENSOR_SENSOR_ID: mySensor
       SENSOR_PLANT_ID: myPlant
       SENSOR_MIN_VALUE: 1
-      SENSOR_MAX_VALUE: 1000000    
+      SENSOR_MAX_VALUE: 1000000
 
   motor:
     image: ghcr.io/lfrei/kafka-training/motor:latest
     restart: always
+    container_name: k-motor
     depends_on:
       - broker
       - schema-registry
@@ -263,17 +287,24 @@ services:
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       MOTOR_MOTOR_ID: myMotor
       MOTOR_PLANT_ID: myPlant
-      MOTOR_STATES_0: starting  
+      MOTOR_STATES_0: starting
       MOTOR_STATES_1: running
       MOTOR_STATES_2: stopping
       MOTOR_STATES_3: stopped
-      MOTOR_STATES_4: error 
+      MOTOR_STATES_4: error
+    deploy:
+      resources:
+        reservations:
+          # cpus: "0.25"
+          memory: 8G
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.3
     container_name: pma
-    links:
-      - mariadb
+    networks:
+      - kafka
+    # links:
+    # - mariadb
     environment:
       PMA_HOST: mariadb
       PMA_PORT: 3306
@@ -284,3 +315,7 @@ services:
 volumes:
   db_data: {}
   db_conf: {}
+networks:
+  kafka:
+    name: kafka
+    driver: bridge
