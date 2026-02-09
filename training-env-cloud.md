@@ -68,7 +68,7 @@ If your IP changes, you have to redo this.
 - Login with ssh: `ssh -i [yourKey].pem -l ubuntu myVMsIP`
 ```
 cd kafka-streaming-technology/
-docker-compose up -d
+docker compose up -d
 ``` 
 - in your <a href="http://myVMsIP:8080" target="_blank">browser</a>: `myVMsIP:8080`
 
