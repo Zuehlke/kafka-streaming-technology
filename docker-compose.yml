@@ -38,7 +38,6 @@ services:
     deploy:
       resources:
         reservations:
-          # cpus: "0.25"
           memory: 8G
     environment:
       KAFKA_NODE_ID: 4
@@ -237,10 +236,6 @@ services:
       - 8080:8080
     networks:
       - kafka
-    # links:
-    #   - broker
-    #   - schema-registry
-    #   - connect
 
   mariadb:
     image: mariadb:12.1
@@ -261,9 +256,12 @@ services:
       MYSQL_PASSWORD: kafka-training
 
   sensor:
-    image: ghcr.io/lfrei/kafka-training/sensor:latest
+    # TODO: make image publicly available (image cannot be pulled)
+    image: ghcr.io/zuehlke/kafka-streaming-technology/sensor:latest
     restart: always
-    container_name: k-sensor
+    container_name: sensor
+    networks:
+      - kafka
     depends_on:
       - broker
       - schema-registry
@@ -276,9 +274,12 @@ services:
       SENSOR_MAX_VALUE: 1000000
 
   motor:
-    image: ghcr.io/lfrei/kafka-training/motor:latest
+    # TODO: make image publicly available (image cannot be pulled)
+    image: ghcr.io/zuehlke/kafka-streaming-technology/motor:latest
     restart: always
-    container_name: k-motor
+    container_name: motor
+    networks:
+      - kafka
     depends_on:
       - broker
       - schema-registry
@@ -292,19 +293,12 @@ services:
       MOTOR_STATES_2: stopping
       MOTOR_STATES_3: stopped
       MOTOR_STATES_4: error
-    deploy:
-      resources:
-        reservations:
-          # cpus: "0.25"
-          memory: 8G
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.3
     container_name: pma
     networks:
       - kafka
-    # links:
-    # - mariadb
     environment:
       PMA_HOST: mariadb
       PMA_PORT: 3306
