@@ -1,4 +1,4 @@
-name: Docker
+name: Docker Motor
 
 on:
   push:
@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: motor
+  IMAGE_NAME: motor-kraft
 
 jobs:
   # Build and push image to GitHub Packages.
