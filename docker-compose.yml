@@ -256,8 +256,7 @@ services:
       MYSQL_PASSWORD: kafka-training
 
   sensor:
-    # TODO: make image publicly available (image cannot be pulled)
-    image: ghcr.io/zuehlke/kafka-streaming-technology/sensor:latest
+    image: ghcr.io/zuehlke/kafka-streaming-technology/sensor-kraft:latest
     restart: always
     container_name: sensor
     networks:
@@ -274,8 +273,7 @@ services:
       SENSOR_MAX_VALUE: 1000000
 
   motor:
-    # TODO: make image publicly available (image cannot be pulled)
-    image: ghcr.io/zuehlke/kafka-streaming-technology/motor:latest
+    image: ghcr.io/zuehlke/kafka-streaming-technology/motor-kraft:latest
     restart: always
     container_name: motor
     networks:
