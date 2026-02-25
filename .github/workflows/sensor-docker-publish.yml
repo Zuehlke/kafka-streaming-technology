@@ -1,4 +1,4 @@
-name: Docker
+name: Docker Sensor
 
 on:
   push:
