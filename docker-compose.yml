@@ -293,7 +293,7 @@ services:
       MOTOR_STATES_4: error
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2.3
+    image: docker.io/phpmyadmin:5.2.3-apache
     container_name: pma
     networks:
       - kafka
