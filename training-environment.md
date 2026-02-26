@@ -216,7 +216,7 @@ docker ps
 # Example to restart Kafka Connect
 docker restart connect
 
-Print out all logs for Kafka Connect
+# Print out all logs for Kafka Connect
 docker logs connect
 
 # Follow the logs for Kafka Connect
@@ -277,3 +277,4 @@ PS C:\Users\U1>
 ```
 
 - reinstall docker desktop
+
