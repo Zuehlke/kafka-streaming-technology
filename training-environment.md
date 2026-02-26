@@ -146,14 +146,16 @@ sudo usermod -a -G docker your_user
 
 ## Step-by-Step Guide: Preparation of Notebook for Mac Users
 
-Install Docker Desktop or Podman
+Install Docker Desktop or Podman Desktop
 
 > [!NOTE]
 > If you plan on using Docker Desktop commercially, please ensure you sign up for a paid account.
 > See https://www.docker.com/products/docker-desktop
 
 For Mac you should choose 12 GB of memory like depicted in the picture.
-![Settings for Podman on macOS](img/te_podman_memory.png)
+If you have less than 8 GB of memory available, you can get into trouble with the broker acting up.
+
+![Settings for Docker Desktop and Podman Desktop on macOS](img/te_podman_memory.png)
 
 ## Services overview
 
