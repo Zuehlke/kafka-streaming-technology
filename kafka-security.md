@@ -1,8 +1,8 @@
-### Exercise Kafka Security
+# Exercise Kafka Security
 
 [⬅️ Back to Kafka overview](README.md)
 
-Goals
+## Goals
 
 - Create a CA and corresponding certificates for the broker and clients (consumer/producer).
 - Enable TLS encryption.
@@ -219,6 +219,9 @@ kafka-acls --bootstrap-server broker:9092 --add --allow-principal User:consumer 
 # checkout acls
 kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
 ```
+
+✅ We can now also read messages from the protected topic with our consumer.
+
 
 ## Clean up
 
