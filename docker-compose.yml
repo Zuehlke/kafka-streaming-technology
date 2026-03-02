@@ -6,8 +6,6 @@ services:
     container_name: controller
     networks:
       - kafka
-    ports:
-      - "29092:29092"
     environment:
       KAFKA_PROCESS_ROLES: "controller"
       KAFKA_NODE_ID: 1
@@ -28,6 +26,7 @@ services:
       - "9092:9092"
       - "9093:9093"
       - "9094:9094"
+      - "29092:29092"
     depends_on:
       - controller
     volumes:
