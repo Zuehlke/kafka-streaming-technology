@@ -1,0 +1,7 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "chat.tools.terminal.autoApprove": {
+    "mvn clean": true
+  }
+}
