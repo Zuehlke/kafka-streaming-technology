@@ -33,10 +33,12 @@ cp ../scripts/create-certs.sh .
 > [!NOTE]
 > If you are getting this error `-bash: ./create-certs.sh: cannot execute: required file not found` when executing,
 > try `dos2unix.exe create-certs.sh` to convert the file to a unix compatible version (CR/LF issue).
-> do the same for `../scripts/start-producer.sh` and `../scrpts/start-consumer.sh` as they are later mounted into
+>
+> Do the same for `../scripts/start-producer.sh` and `../scrpts/start-consumer.sh` as they are later mounted into
 > the docker containers and will produce a similar error when executed.
 
 💡 Have a look at the script [create-certs.sh](/security/scripts/create-certs.sh) to understand what is generated
+
 💡 The certificates and key/certificate stores are mounted as volume into the broker
 
 Next, enable the SSL configuration, by removing the comments in the `broker` config within the [docker compose](docker-compose.yml) file:
@@ -237,7 +239,7 @@ git checkout docker-compose.yml
 docker compose up -d
 ```
 
-Links:
+## Links
 
 - https://kafka.apache.org/42/security/authorization-and-acls/
 - https://docs.confluent.io/platform/current/security/authorization/acls/overview.html
