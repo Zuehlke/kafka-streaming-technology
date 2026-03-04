@@ -30,7 +30,7 @@ To check things are up and running, execute the following command. There should 
 ```bash
 docker ps
 
-Example output
+### Example output ###
 CONTAINER ID  IMAGE                                                           COMMAND               CREATED         STATUS         PORTS                               NAMES
 ea770e5513a0  docker.io/library/mariadb:12.1                                  mariadbd              14 minutes ago  Up 14 minutes  0.0.0.0:3306->3306/tcp              mariadb
 b43a160e94fd  docker.io/confluentinc/cp-server:8.0.3                          /etc/confluent/do...  14 minutes ago  Up 14 minutes  0.0.0.0:29092->29092/tcp, 9092/tcp  controller
@@ -54,7 +54,7 @@ In addition, you can visit http://localhost:8080/ and check if akHQ is running a
 
 The following service components should be installed on your training device before attending the training. A detailed installation guide will be given afterwards.
 
-- Docker Desktop
+- Docker Desktop or Podman Desktop
 - Development:
   - VS Code (or your IDE/text editor of choice)
   - Current Java JDK
@@ -65,7 +65,7 @@ The following service components should be installed on your training device bef
 In addition, required for Windows users:
 
 - Windows Subsystem for Linux (WSL)
-- Ubuntu 20.04 for WSL (recommended, other distributions might work too)
+- Ubuntu 24.04 for WSL (recommended, other distributions might work too)
 - Windows Terminal (optional, but very nice)
 
 ## Step-by-Step Guide: Preparation of Notebook for Windows Users
@@ -86,59 +86,77 @@ Ensure you're running WSL 2 and not the legacy WSL 1
 
 ```bash
 wsl --status
-```
 
-Example output
+### Example output ###
 Default Distribution: Ubuntu
-**Default Version: 2**
+Default Version: 2
 
 Windows Subsystem for Linux was last updated on 8 Nov 2021
 WSL automatic updates are on.
 
 Kernel version: 5.10.60.1
+```
 
-If Ubuntu is already installed, please ensure that it is using WSL 2. You can check this with the following command.
+- If Ubuntu is already installed, please ensure that it is using WSL 2. You can check this with the following command.
 
 ```bash
 wsl -l -v
 ```
 
-Install Windows Terminal (optional)
-See https://docs.microsoft.com/en-us/windows/terminal/install
-Optional but very nice to use 😊
+- Install Windows Terminal, see https://docs.microsoft.com/en-us/windows/terminal/install (optional, but very nice to use 😊)
 
-Install Ubuntu 20.04 from the Microsoft store
-See https://www.microsoft.com/store/productId/9N6SVWS3RX71 Alternative link: https://aka.ms/wslstore
-You should now be able to run the Ubuntu app
+- Install Ubuntu 24.04 either via command line `wsl --install Ubuntu-24.04` (you can list all available distibutions with `wsl --list --online`) or from the Microsoft store (see https://apps.microsoft.com/detail/9nz3klhxdjp5, alternative link: https://aka.ms/wslstore). You should now be able to run the Ubuntu app.
 
-![img.png](img/te_1.png)
+![Windows start menu showing Ubuntu Application](img/te_1.png)
 
 or select the shell in the Windows Terminal
 
-![img.png](img/te_2.png)
+![Terminal showing Ubuntu application](img/te_2.png)
 
 On first run you'll be asked to set up a user.
 
-Install Docker Desktop
-Note: If you plan on using Docker Desktop commercially, please ensure you sign up for a paid account.
-See https://www.docker.com/products/docker-desktop
+### Install Podman Desktop
 
-Enable WSL backend in Docker Desktop
-Note: This is probably already your default if installed after WSL
-![img.png](img/te_3.png)
+Alternatively, you can also use Docker Desktop, see [Install Docker Desktop](#-install-docker-desktop) below.
+
+Download Podman Desktop https://podman-desktop.io/downloads
+
+Make sure to select _Podman_ and _Compose_ during installation and start the onboarding.
+
+![](img/te_podman_1.png)
+
+During the onboarding, make sure to select _Windows Subsystem for Linux (WSL v2)_
+
+![](img/te_podman_2.png)
+
+After the installation, go into _Settings_ $\rightarrow$ _Preferences_ and enable _Docker Compatibility_.
+
+![](img/te_podman_docker_compatibility.png)
+
+### Install Docker Desktop
+
+> [!NOTE]
+> If you plan on using Docker Desktop commercially, please ensure you sign up for a paid account.
+> See https://www.docker.com/products/docker-desktop
+
+Enable WSL backend in Docker Desktop / during installation<br>
+**Note:** This is probably already your default if installed after WSL
+
+![Docker installation](img/te_docker_wsl.png)
+![Docker General Settings](img/te_docker_general_settings.png)
 
 Enable WSL integration in Docker Desktop
 This is to enable direct access to Docker from your distribution and add the necessary binaries.
 
-![img.png](img/te_4.png)
+![Docker Resources](img/te_docker_resources.png)
 
-(you don't see this slider? => see below troubleshooting)
+You don't see this slider? $\rightarrow$ see [Troubleshooting](#-troubleshooting)
 
-Confirm all changes to Docker Desktop with the press of “Apply & Restart”
+Confirm all changes to Docker Desktop with the press of _Apply & Restart_
 
-![img.png](img/te_6.png)
+![Apply & Restart Button](img/te_6.png)
 
-It should be now possible to run the command "docker ps" in your Ubuntu shell. If the command can be executed but you are lacking permission, your user need to be added to the docker group.
+It should be now possible to run the command `docker ps` in your Ubuntu shell. If the command can be executed but you are lacking permission, your user need to be added to the docker group.
 
 ```bash
 sudo usermod -a -G docker your_user
@@ -173,7 +191,7 @@ If you have less than 8 GB of memory available, you can get into trouble with th
 
 Manage & view data inside your Apache Kafka ® cluster
 
-![img.png](img/akhq.png)
+![akHQ](img/akhq.png)
 
 Further information can be found on the product website https://akhq.io/
 
@@ -277,4 +295,3 @@ PS C:\Users\U1>
 ```
 
 - reinstall docker desktop
-
