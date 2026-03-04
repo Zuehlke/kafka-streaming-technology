@@ -244,7 +244,7 @@ docker logs -f connect
 
 Another option to access logs is by clicking on the container in Docker Desktop / Podman Desktop.
 
-![img.png](img/te_9.JPG)
+![Podman Containers](img/te_podman_containers.png)
 
 Using WSL 2.0 and cannot connect to Kafka broker with Spring Boot. Error: _Bootstrap broker localhost (id : -1 rack: null) disconnected_
 
