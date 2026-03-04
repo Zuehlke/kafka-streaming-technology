@@ -30,6 +30,12 @@ cp ../scripts/create-certs.sh .
 ./create-certs.sh
 ```
 
+> [!NOTE]
+> If you are getting this error `-bash: ./create-certs.sh: cannot execute: required file not found` when executing,
+> try `dos2unix.exe create-certs.sh` to convert the file to a unix compatible version (CR/LF issue).
+> do the same for `../scripts/start-producer.sh` and `../scrpts/start-consumer.sh` as they are later mounted into
+> the docker containers and will produce a similar error when executed.
+
 💡 Have a look at the script [create-certs.sh](/security/scripts/create-certs.sh) to understand what is generated
 💡 The certificates and key/certificate stores are mounted as volume into the broker
 
@@ -222,7 +228,6 @@ kafka-acls --bootstrap-server broker:9092 --list -topic kafka-security-topic
 
 ✅ We can now also read messages from the protected topic with our consumer.
 
-
 ## Clean up
 
 Reset your environment:
@@ -234,6 +239,6 @@ docker compose up -d
 
 Links:
 
-- https://kafka.apache.org/documentation/#security_authz
-- https://docs.confluent.io/platform/current/kafka/authorization.html
-- https://docs.confluent.io/platform/current/kafka/authorization.html#kraft-principal-forwarding
+- https://kafka.apache.org/42/security/authorization-and-acls/
+- https://docs.confluent.io/platform/current/security/authorization/acls/overview.html
+- https://docs.confluent.io/platform/current/security/authorization/acls/overview.html#kraft-principal-forwarding
