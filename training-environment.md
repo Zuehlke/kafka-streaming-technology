@@ -97,15 +97,15 @@ WSL automatic updates are on.
 Kernel version: 5.10.60.1
 ```
 
-- If Ubuntu is already installed, please ensure that it is using WSL 2. You can check this with the following command.
+If Ubuntu is already installed, please ensure that it is using WSL 2. You can check this with the following command.
 
 ```bash
 wsl -l -v
 ```
 
-- Install Windows Terminal, see https://docs.microsoft.com/en-us/windows/terminal/install (optional, but very nice to use 😊)
+Install Windows Terminal, see https://docs.microsoft.com/en-us/windows/terminal/install (optional, but very nice to use 😊)
 
-- Install Ubuntu 24.04 either via command line `wsl --install Ubuntu-24.04` (you can list all available distibutions with `wsl --list --online`) or from the Microsoft store (see https://apps.microsoft.com/detail/9nz3klhxdjp5, alternative link: https://aka.ms/wslstore). You should now be able to run the Ubuntu app.
+Install Ubuntu 24.04 either via command line `wsl --install Ubuntu-24.04` (you can list all available distibutions with `wsl --list --online`) or from the Microsoft store (see https://apps.microsoft.com/detail/9nz3klhxdjp5, alternative link: https://aka.ms/wslstore). You should now be able to run the Ubuntu app.
 
 ![Windows start menu showing Ubuntu Application](img/te_1.png)
 
@@ -117,7 +117,7 @@ On first run you'll be asked to set up a user.
 
 ### Install Podman Desktop
 
-Alternatively, you can also use Docker Desktop, see [Install Docker Desktop](#-install-docker-desktop) below.
+Alternatively, you can also use Docker Desktop, see [Install Docker Desktop](#install-docker-desktop) below.
 
 Download Podman Desktop https://podman-desktop.io/downloads
 
@@ -150,7 +150,7 @@ This is to enable direct access to Docker from your distribution and add the nec
 
 ![Docker Resources](img/te_docker_resources.png)
 
-You don't see this slider? $\rightarrow$ see [Troubleshooting](#-troubleshooting)
+You don't see this slider? $\rightarrow$ see [Troubleshooting](#troubleshooting)
 
 Confirm all changes to Docker Desktop with the press of _Apply & Restart_
 
