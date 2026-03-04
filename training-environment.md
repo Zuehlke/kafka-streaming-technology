@@ -177,15 +177,17 @@ If you have less than 8 GB of memory available, you can get into trouble with th
 
 ## Services overview
 
-- akHQ - Manage & view data inside your Apache Kafka cluster: http://localhost:8080/
-- phpMyAdmin: http://localhost:8085/ Leave the field for the server blank and type for the **username** and **password** "**kafka-training**". The preferred language can be change on the start page.
-- Kafka Broker: localhost on port 9092
-- Kafka Controller: localhost on port 29092
-- Schema Registry: localhost on port 8081
-- Rest Proxy: localhost on port 8082
-- Kafka Connect: localhost on port 8083
-- ksqlDB: localhost on port 8088
-- MariaDB: localhost on port 3306
+| Service          | URL                    | Comments                                                                                                                                                             |
+| ---------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| akHQ             | http://localhost:8080  | Manage & view data inside your Apache Kafka cluster                                                                                                                  |
+| Schema Registry  | http://localhost:8081  |                                                                                                                                                                      |
+| Rest Proxy       | http://localhost:8082  |                                                                                                                                                                      |
+| Kafka Connect    | http://localhost:8083  |                                                                                                                                                                      |
+| phpMyAdmin       | http://localhost:8085  | Leave the field for the server blank and type for the **username** and **password** "**kafka-training**".<br>The preferred language can be change on the start page. |
+| ksqlDB           | http://localhost:8088  |                                                                                                                                                                      |
+| Kafka Broker     | http://localhost:9092  |                                                                                                                                                                      |
+| MariaDB          | http://localhost:3306  |                                                                                                                                                                      |
+| Kafka Controller | http://localhost:29092 |                                                                                                                                                                      |
 
 ## akHQ
 
