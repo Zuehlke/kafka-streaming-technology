@@ -2,16 +2,23 @@
 
 [⬅️ Back to Kafka overview](README.md)
 
+Contents:
+- Create Stream
+- Create Table
+- Filter
+- Transform
+- Join
+
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Start the KSQL CLI:
 
 ```
-docker-compose exec ksqldb-cli ksql http://ksqldb-server:8088
+docker compose exec ksqldb-cli ksql http://ksqldb-server:8088
 ```
 
 Explore Topics, Streams and Tables:
