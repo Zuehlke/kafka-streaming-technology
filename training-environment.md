@@ -13,7 +13,7 @@ Open a shell and run the following commands to check out the course repository a
 ```bash
 git clone https://github.com/Zuehlke/kafka-streaming-technology.git
 cd kafka-streaming-technology
-docker compose up -d
+podman compose up -d
 ```
 
 💡 Detailed instruction to **fulfill all system requirements** are described further down.
@@ -28,7 +28,7 @@ Verification
 To check things are up and running, execute the following command. There should be a list of running containers. The status should be up and healthy for all containers.
 
 ```bash
-docker ps
+podman ps
 
 ### Example output ###
 CONTAINER ID  IMAGE                                                           COMMAND               CREATED         STATUS         PORTS                               NAMES
@@ -54,7 +54,7 @@ In addition, you can visit http://localhost:8080/ and check if akHQ is running a
 
 The following service components should be installed on your training device before attending the training. A detailed installation guide will be given afterwards.
 
-- Docker Desktop or Podman Desktop
+- Podman Desktop (also works with Docker Desktop)
 - Development:
   - VS Code (or your IDE/text editor of choice)
   - Current Java JDK
@@ -138,6 +138,7 @@ After the installation, go into _Settings_ $\rightarrow$ _Preferences_ and enabl
 > [!NOTE]
 > If you plan on using Docker Desktop commercially, please ensure you sign up for a paid account.
 > See https://www.docker.com/products/docker-desktop
+> All commands starting with `podman` can be executed with `docker` as well if you are using Docker Desktop.
 
 Enable WSL backend in Docker Desktop / during installation<br>
 **Note:** This is probably already your default if installed after WSL
@@ -199,48 +200,48 @@ Further information can be found on the product website https://akhq.io/
 
 ## Troubleshooting
 
-💡 All Docker Compose commands must be executed in the top folder of your training material.
+💡 All podman Compose commands must be executed in the top folder of your training material.
 
 Restart your environment:
 
 ```bash
-docker compose restart
+podman compose restart
 ```
 
 Stop and remove resources of your environment
 
 ```bash
-docker compose down
+podman compose down
 ```
 
 Delete your local persistent data:
 
 ```bash
-docker volume rm kafka-streaming-technology_db_conf kafka-streaming-technology_db_data
+podman volume rm kafka-streaming-technology_db_conf kafka-streaming-technology_db_data
 ```
 
 Cleanup hanging docker instances:
 
 ```bash
-docker stop $(docker ps -q)
+podman stop $(podman ps -q)
 
-docker rm $(docker ps -a -q)
+podman rm $(podman ps -a -q)
 ```
 
 Restart & Logs: You can use Docker Desktop / Podman Desktop to restart container and read logs. As an alternative you can use the command line.
 
 ```bash
 # List all running container.
-docker ps
+podman ps
 
 # Example to restart Kafka Connect
-docker restart connect
+podman restart connect
 
 # Print out all logs for Kafka Connect
-docker logs connect
+podman logs connect
 
 # Follow the logs for Kafka Connect
-docker logs -f connect
+podman logs -f connect
 
 ```
 
@@ -260,7 +261,7 @@ netsh interface portproxy add v4tov4 listenport=9092 listenaddress=0.0.0.0 conne
 
 Link: https://docs.microsoft.com/en-us/windows/wsl/networking
 
-You see the following error when starting docker desktop on Windows, or when you start Ubuntu:
+You see the following error when starting Docker Desktop on Windows, or when you start Ubuntu:
 
 ```
 Logon failure: the user has not been granted the requested logon type at this computer.
