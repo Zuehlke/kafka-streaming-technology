@@ -165,7 +165,7 @@ sudo usermod -a -G docker your_user
 
 ## Step-by-Step Guide: Preparation of Notebook for Mac Users
 
-Install Docker Desktop or Podman Desktop
+Install Podman Desktop (or Docker Desktop, see [Install Docker Desktop](#install-docker-desktop) below)
 
 > [!NOTE]
 > If you plan on using Docker Desktop commercially, please ensure you sign up for a paid account.
@@ -174,7 +174,7 @@ Install Docker Desktop or Podman Desktop
 For Mac you should choose 12 GB of memory like depicted in the picture.
 If you have less than 8 GB of memory available, you can get into trouble with the broker acting up.
 
-![Settings for Docker Desktop and Podman Desktop on macOS](img/te_podman_memory.png)
+![Settings for Podman Desktop and Docker Desktop on macOS](img/te_podman_memory.png)
 
 ## Services overview
 
@@ -220,7 +220,7 @@ Delete your local persistent data:
 podman volume rm kafka-streaming-technology_db_conf kafka-streaming-technology_db_data
 ```
 
-Cleanup hanging docker instances:
+Cleanup hanging podman instances:
 
 ```bash
 podman stop $(podman ps -q)
@@ -228,7 +228,7 @@ podman stop $(podman ps -q)
 podman rm $(podman ps -a -q)
 ```
 
-Restart & Logs: You can use Docker Desktop / Podman Desktop to restart container and read logs. As an alternative you can use the command line.
+Restart & Logs: You can use Podman Desktop / Docker Desktop to restart container and read logs. As an alternative you can use the command line.
 
 ```bash
 # List all running container.
@@ -245,7 +245,7 @@ podman logs -f connect
 
 ```
 
-Another option to access logs is by clicking on the container in Docker Desktop / Podman Desktop.
+Another option to access logs is by clicking on the container in Podman Desktop / Docker Desktop.
 
 ![Podman Containers](img/te_podman_containers.png)
 

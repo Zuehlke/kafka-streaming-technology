@@ -13,7 +13,7 @@
 As always, make sure that the exercise environment is up and running:
 
 ```bash
-docker compose up -d
+podman compose up -d
 ```
 
 ## Enable TLS encryption
@@ -78,14 +78,14 @@ KAFKA_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://0.0.0.0:29092,SSL://br
 Now update your environment with the new configuration:
 
 ```bash
-docker compose up -d
+podman compose up -d
 ```
 
 To make sure the change has been applied correctly, have a look at the output:
 
 ```bash
 # Check if all endpoints were published
-docker logs broker | grep -i ListenerName
+podman logs broker | grep -i ListenerName
 
 # Excpected result:
 [2026-02-26 10:35:01,644] INFO [SocketServer listenerType=BROKER, nodeId=4] Created data-plane acceptor and processors for endpoint : ListenerName(PLAINTEXT) used TCP protocol (kafka.network.SocketServer)
@@ -100,7 +100,7 @@ Produce a message and consume it again. Investigate the below given bash scripts
 The first _Error while fetching metadata_ can be ignored, this is because of the auto-creation of the topic.
 
 ```bash
-docker exec -it broker bash
+podman exec -it broker bash
 cd /scripts
 # start console producer
 ./start-producer.sh
@@ -141,7 +141,7 @@ ssl.key.password=confluent
 Now update your environment again with the new configuration:
 
 ```bash
-docker compose up -d
+podman compose up -d
 ```
 
 ✅ Produce and consume some messages as described above. Now with **client authentication** enabled.
@@ -172,13 +172,13 @@ KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
 Now update your environment again with the new configuration:
 
 ```bash
-docker compose up -d
+podman compose up -d
 ```
 
 Produce a message:
 
 ```bash
-docker exec -it broker bash
+podman exec -it broker bash
 cd /scripts
 # try to produce a message - will it work?
 ./start-producer.sh
@@ -236,7 +236,7 @@ Reset your environment:
 
 ```bash
 git checkout docker-compose.yml
-docker compose up -d
+podman compose up -d
 ```
 
 ## Links

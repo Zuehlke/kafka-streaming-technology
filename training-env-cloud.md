@@ -2,6 +2,7 @@
 
 [⬅️ Back to Kafka overview](README.md)
 
+<!-- TODO: update the cloud env. to podman -->
 This training comes with a predefined environment provided in multiple docker containers.
 
 ## Technical prerequisite for the training
