@@ -31,6 +31,6 @@ spring:
         processing.guarantee: <value>
 ```
 
-💡 Have a look at the different options in the Kafka Streams [documentation](https://kafka.apache.org/32/documentation/streams/developer-guide/config-streams.html#processing-guarantee)
+💡 Have a look at the different options in the Kafka Streams [documentation](https://kafka.apache.org/41/streams/developer-guide/config-streams/#processingguarantee)
 
 📝 Configure an "exactly once" processing. Why are there multiple ways to do this?
