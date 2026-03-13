@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.zuehlke.training.kafka.witnessprotection</groupId>
-	<artifactId>kafka-stream</artifactId>
+	<artifactId>witness-protection</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kafka-stream</name>
-	<description>kafka-stream</description>
+	<name>witness-protection</name>
+	<description>witness-protection</description>
 	<properties>
 		<java.version>23</java.version>
 	</properties>
