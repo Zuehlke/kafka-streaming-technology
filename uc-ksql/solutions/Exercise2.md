@@ -3,8 +3,11 @@
 Select statement:
 
 ```sql
-SELECT s.sensor_id, s.datetime, s.value, m.type
+SELECT s.sensor_id,
+       s.datetime,
+       s.value,
+       m.type
 FROM myplant_sensors_stream AS s
-LEFT JOIN metadata_table AS m
-ON s.sensor_id = m.sensor_id EMIT CHANGES;
+LEFT JOIN metadata_table AS m ON s.sensor_id = m.sensor_id
+EMIT CHANGES;
 ```
