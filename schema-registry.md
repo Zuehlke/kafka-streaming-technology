@@ -13,13 +13,13 @@ docker rm $(docker ps -a -q)
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Connect to the schema registry
 
 ```
-docker-compose exec schema-registry bash 
+docker compose exec schema-registry bash 
 ```
 
 For this exercise, the schema registry is already bundled with some [schemas](uc-iot/schemas/avro).
@@ -34,7 +34,7 @@ Start a producer with the schema [sensor-1.avcs](uc-iot/schemas/avro/sensor-v1.a
 ```
 kafka-avro-console-producer \
   --topic avro-sensor \
-  --broker-list broker:29092 \
+  --bootstrap-server broker:9092 \
   --property schema.registry.url=http://localhost:8081 \
   --property value.schema="$(< /schemas/avro/sensor-v1.avsc)"
 ```
@@ -59,7 +59,7 @@ Start a consumer with the schema [sensor-1.avcs](uc-iot/schemas/avro/sensor-v1.a
 ```
 kafka-avro-console-consumer \
   --topic avro-sensor \
-  --bootstrap-server broker:29092 \
+  --bootstrap-server broker:9092 \
   --property schema.registry.url=http://localhost:8081 \
   --from-beginning
 ```
@@ -73,7 +73,7 @@ Start a producer with the schema [sensor-2.avcs](uc-iot/schemas/avro/sensor-v2.a
 ```
 kafka-avro-console-producer \
   --topic avro-sensor \
-  --broker-list broker:29092 \
+  --bootstrap-server broker:9092 \
   --property schema.registry.url=http://localhost:8081 \
   --property value.schema="$(< /schemas/avro/sensor-v2.avsc)"
 ```
@@ -95,7 +95,7 @@ Start a producer with the schema [sensor-3.avcs](uc-iot/schemas/avro/sensor-v3.a
 ```
 kafka-avro-console-producer \
   --topic avro-sensor \
-  --broker-list broker:29092 \
+  --bootstrap-server broker:9092 \
   --property schema.registry.url=http://localhost:8081 \
   --property value.schema="$(< /schemas/avro/sensor-v3.avsc)"
 ```
@@ -118,7 +118,7 @@ Start a consumer with the schema [sensor-3.avcs](uc-iot/schemas/avro/sensor-v3.a
 ```
 kafka-avro-console-consumer \
   --topic avro-sensor \
-  --bootstrap-server broker:29092 \
+  --bootstrap-server broker:9092 \
   --property schema.registry.url=http://localhost:8081 \
   --from-beginning
 ```

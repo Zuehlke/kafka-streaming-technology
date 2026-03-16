@@ -11,13 +11,13 @@ Contents:
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Start the KSQL CLI:
 
 ```
-docker-compose exec ksqldb-cli ksql http://ksqldb-server:8088
+docker compose exec ksqldb-cli ksql http://ksqldb-server:8088
 ```
 
 ## Windowed Joins
