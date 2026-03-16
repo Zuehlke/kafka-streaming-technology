@@ -2,7 +2,7 @@
 
 Identify when motor stops within 2 minutes after start
 
-```
+```sql
 SELECT starting.sensor_id AS sensor_id,
 CONVERT_TZ(FROM_UNIXTIME(starting.datetime), 'UTC', 'Europe/Zurich') AS starting,
 CONVERT_TZ(FROM_UNIXTIME(stopping.datetime), 'UTC', 'Europe/Zurich') AS stopping,

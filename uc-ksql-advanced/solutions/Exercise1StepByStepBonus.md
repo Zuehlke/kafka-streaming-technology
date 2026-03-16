@@ -1,10 +1,11 @@
 create first a normal stream with readable time
 
-```select sensor_id, CONVERT_TZ(FROM_UNIXTIME(datetime), 'UTC', 'Europe/Zurich') AS starting, value from mymotor_starting_stream;
+```sql
+select sensor_id, CONVERT_TZ(FROM_UNIXTIME(datetime), 'UTC', 'Europe/Zurich') AS starting, value from mymotor_starting_stream;
 ```
 join with stopping
 
-```
+```sql
 select start.sensor_id, CONVERT_TZ(FROM_UNIXTIME(start.datetime), 'UTC', 'Europe/Zurich') AS starting, start.value from mymotor_starting_stream start 
     left join mymotor_stopping_stream stop
     within 2 minutes
@@ -12,7 +13,7 @@ select start.sensor_id, CONVERT_TZ(FROM_UNIXTIME(start.datetime), 'UTC', 'Europe
 emit changes;
 ```
 check the content of the stopping stream
-```
+```sql
 select 
 from mymotor_starting_stream as start left join mymotor_stopping_stream as stop  within 2 minutes on start.sensor_id = stop.sensor_id emit changes;
 
@@ -28,7 +29,7 @@ emit changes;
 ```
 
 difference?
-```
+```sql
 select 
     start.sensor_id, 
     CONVERT_TZ(FROM_UNIXTIME(start.datetime), 'UTC', 'Europe/Zurich') AS starting,
@@ -60,7 +61,7 @@ emit changes;
 null values can be elimitatd in emiting an inner join
 in neagative values we are not intereted. this means, that start was after the stop this we eliminate with a where clause
 
-```
+```sql
 select 
     start.sensor_id, 
     CONVERT_TZ(FROM_UNIXTIME(start.datetime), 'UTC', 'Europe/Zurich') AS starting,
@@ -91,7 +92,7 @@ emit changes;
 
 next, we want to have only the stops directly after a start. with other words, for a stopping event, only the most recend start interests us
 
-```
+```sql
 create stream mymotor_uptime_stream as
 select 
     start.sensor_id, 
@@ -109,7 +110,7 @@ emit changes;
 
 we want to represent it as table
 
-```
+```sql
 create table mymotor_uptime_table as
  select  stop_datetime, latest_by_offset(starting) as starting, latest_by_offset(stopping) as stopping, min(diff) as diff from mymotor_uptime_stream
  group by stop_datetime;
