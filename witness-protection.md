@@ -14,7 +14,7 @@
 ![Setup](img/uc-wp.png)
 
 * 1: **MariaDB** contains all events. It is already prepared with test data of simplified events. JDBC URL: jdbc:mysql://mariadb:3306/events
-* 2: **Kafka connect** runs in a Docker container with the name kafka-connect-01. It will be used to ingest the events via JDBC connector.
+* 2: **Kafka connect** runs in a Docker container with the name connect. It will be used to ingest the events via JDBC connector.
 * 3: Using **Kafka Streams** to write the data to other topics.
 
 The folder **uc-witness-protection** contains the material to support the exercises.
@@ -36,13 +36,13 @@ Exercise:
 * Discover the created events in Kafka via your preferred way.
 * Create new test events with pypMyAdmin. It is enough to type random information for the field "XML_EVENT".
 * Why is this configuration not the most suitable for our scenario?
-* Bonus: The utilised JDBC connector "JdbcSourceConnector" is not a standard within the container **kafka-connect-01** . Can you figure out from where it is and how we added it?
+* Bonus: The utilised JDBC connector "JdbcSourceConnector" is not a standard within the container **connect** . Can you figure out from where it is and how we added it?
 
 Hints:
 
 * If you get stuck, check the status of your connector. 
 * If you prefer the console to access the databases use the following command: `mysql --protocol=TCP -u kafka-training -p kafka-training events`
-* It might be necessary to restart the Kafka Connect. This can be done by the following command: `docker restart kafka-connect-01`
+* It might be necessary to restart the Kafka Connect. This can be done by the following command: `docker restart connect`
 * How to add content in a table with phpmyadmin can be found here https://www.siteground.com/tutorials/phpmyadmin/create-populate-tables/
 
 Links:

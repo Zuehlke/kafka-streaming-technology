@@ -82,7 +82,7 @@ Exercise:
 
 * Use the template [Exercise1Stream.java](uc-iot/kafka-stream/src/main/java/com/zuehlke/training/kafka/iot/stream/Exercise1Stream.java) to implement a stream
 * Filter by key to only get sensor values
-* Filter by values to only keep the sensor measurement of the top 20%
+* Filter by values to only keep the sensor measurement of the top 20% (= Messages with a value > 800'000)
 * Write messages to output topic
 
 Hints:
