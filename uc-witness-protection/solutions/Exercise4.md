@@ -6,18 +6,18 @@ We need to configure four attributes: **cleanup.policy**, **max.compaction.lag.m
 
 * Attribute: **max.compaction.lag.ms**
     * Defintion: The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
-    * Answer: For this attribute we should define a reasonable value for the demo case like 3 minutes (**180000 ms**).
+    * Answer: For this attribute we should define a reasonable value for the demo case like 3 minutes (**180'000 ms**).
 
 * Attribute: **segment.ms**
     * Defintion: This configuration controls the period of time after which Kafka will force the log to roll even if the segment file isn’t full to ensure that retention can delete or compact old data.
-    * Answer: For this attribute we should define a reasonable value for the demo case like 3 minutes (**180000 ms**).
+    * Answer: For this attribute we should define a reasonable value for the demo case like 3 minutes (**180'000 ms**).
 
 * Attribute: **delete.retention.ms**
     * Defintion: The amount of time to retain delete tombstone markers for log compacted topics.
-    * Answer: For this attribute we should define a reasonable value for the demo case like 3 minutes (**180000 ms**).
+    * Answer: For this attribute we should define a reasonable value for the demo case like 3 minutes (**180'000 ms**).
 
 Let us create some data for the message key "agent" with phpMyAdmin.
-```
+```sql
 INSERT INTO `events` (`ID`, `XML_EVENT`, `CREATETIME`, `PERSON_IDENTIFIER`) VALUES (NULL, 'payload', current_timestamp(), 'agent');
 INSERT INTO `events` (`ID`, `XML_EVENT`, `CREATETIME`, `PERSON_IDENTIFIER`) VALUES (NULL, 'payload', current_timestamp(), 'agent');
 INSERT INTO `events` (`ID`, `XML_EVENT`, `CREATETIME`, `PERSON_IDENTIFIER`) VALUES (NULL, 'payload', current_timestamp(), 'agent');
@@ -26,7 +26,7 @@ Now wait until the defined 3 minutes are over and crate a new message for the ke
 
 You can use AKHQ for that or use **Kafkacat**:
 
-```
+```shell
 # Install on Ubutntu 
 sudo apt install kafkacat
 
