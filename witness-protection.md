@@ -60,7 +60,7 @@ Exercise:
 
 * Update your existing connector with a put request so that new database entries are only synchronised once.
 * Clean your existing topic so that there is no previous data inside.
-* Create a new database entry based on the event template [Exercise1demo-event.xml](/uc-witness-protection/connectors/Exercise1demo-event.xml) using the field **XML_EVENT**.
+* Create a new database entry based on the event template [Exercise1demo-event.xml](uc-witness-protection/connectors/Exercise1demo-event.xml) using the field **XML_EVENT**.
 
 Hints:
 
