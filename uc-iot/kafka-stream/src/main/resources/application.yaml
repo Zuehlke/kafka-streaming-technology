@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: myVMsIP:9094,localhost:9092
+    bootstrap-servers: myVMsIP:9094,localhost:29092
     streams:
       application-id: iot-kafka-stream
       properties:
