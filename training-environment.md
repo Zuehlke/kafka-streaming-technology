@@ -24,7 +24,8 @@ podman compose up -d
 sudo apt install -y git
 ```
 
-Verification
+### Verification
+
 To check things are up and running, execute the following command. There should be a list of running containers. The status should be up and healthy for all containers.
 
 ```bash
@@ -49,6 +50,22 @@ b728211640eb  docker.io/confluentinc/cp-schema-registry:8.0.3                 /e
 In addition, you can visit http://localhost:8080/ and check if akHQ is running appropriately if you see the node here http://localhost:8080/ui/docker-kafka-server/node.
 
 💡 The whole environment is quite main memory intensive. We recommend a computer with at least 16 GB of working memory.
+
+### Using Docker Desktop?
+
+As all the commands in the training material are using `podman`, you can create an alias to avoid having to change all commands when using Docker Desktop.
+Execute the following command in your WSL terminal to create an alias for the current session
+
+```bash
+alias podman='docker'
+```
+
+or make the alias permanent by adding it to your bash profile
+
+```bash
+echo "alias podman='docker'" >> ~/.bashrc
+source ~/.bashrc
+```
 
 ## Technical prerequisite for the training
 
