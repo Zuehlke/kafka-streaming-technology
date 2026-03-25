@@ -4,8 +4,7 @@
 
 ## Start the cluster
 
-<!-- TODO: update to podman as soon as the cloud env. is updated to podman -->
-If you are using the cloud environment, we suggest stopping docker compose by running `docker compose stop` in `~/kafka-streaming-technology` folder.
+If you are using the cloud environment, we suggest stopping podman compose by running `podman compose stop` in `~/kafka-streaming-technology` folder.
 
 Start 3 controller hosts
 
