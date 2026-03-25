@@ -6,10 +6,10 @@
 
 ![Setup](img/uc-iot.png)
 
-Start docker compose:
+Start podman compose:
 
 ```
-docker compose up -d
+podman compose up -d
 ```
 
 For the IoT use case, there are two types of containers that simulate IoT devices in a plant:
