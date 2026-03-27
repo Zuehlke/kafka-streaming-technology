@@ -6,6 +6,9 @@
 
 This training comes with a predefined environment provided in multiple docker containers.
 
+For setting up: go to [Step-by-Step Guide: Preparation of Notebook for Windows Users](#step-by-step-guide-preparation-of-notebook-for-windows-users)
+or [Step-by-Step Guide: Preparation of Notebook for Mac Users](#step-by-step-guide-preparation-of-notebook-for-mac-users) below.
+
 ## Windows with WSL 2.0 & Mac: Start the training environment
 
 Open a shell and run the following commands to check out the course repository and start the environment.
