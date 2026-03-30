@@ -5,13 +5,13 @@
 Make sure that the exercise environment is up and running:
 
 ```
-docker compose up -d
+podman compose up -d
 ```
 
 💡 **Important:** Every command needs to be executed from the Kafka Broker or Kafka Connect **Docker Container**. Open two consoles:
 
-* ***Kafka Broker***: `docker exec -it broker bash`
-* ***Kafka Connect***: `docker exec -it connect bash`
+* ***Kafka Broker***: `podman exec -it broker bash`
+* ***Kafka Connect***: `podman exec -it connect bash`
 
 ## File source connector
 

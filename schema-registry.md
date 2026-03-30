@@ -2,24 +2,24 @@
 
 [⬅️ Back to Kafka overview](README.md)
 
-Ensure that your lab environment is clean - remove all docker instances from your former lab:
+Ensure that your lab environment is clean - remove all podman instances from your former lab:
 
 ```
-docker stop $(docker ps -q)
+podman stop $(podman ps -q)
 
-docker rm $(docker ps -a -q)
+podman rm $(podman ps -a -q)
 ```
 
 Make sure that the exercise environment is up and running:
 
 ```
-docker compose up -d
+podman compose up -d
 ```
 
 Connect to the schema registry
 
 ```
-docker compose exec schema-registry bash 
+podman compose exec schema-registry bash 
 ```
 
 For this exercise, the schema registry is already bundled with some [schemas](uc-iot/schemas/avro).

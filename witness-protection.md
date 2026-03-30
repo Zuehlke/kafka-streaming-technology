@@ -42,7 +42,7 @@ Hints:
 
 * If you get stuck, check the status of your connector. 
 * If you prefer the console to access the databases use the following command: `mysql --protocol=TCP -u kafka-training -p kafka-training events`
-* It might be necessary to restart the Kafka Connect. This can be done by the following command: `docker restart connect`
+* It might be necessary to restart the Kafka Connect. This can be done by the following command: `podman restart connect`
 * How to add content in a table with phpmyadmin can be found here https://www.siteground.com/tutorials/phpmyadmin/create-populate-tables/
 
 Links:

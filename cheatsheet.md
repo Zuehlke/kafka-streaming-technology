@@ -1,11 +1,11 @@
-## Docker stop all running containers
+## Podman stop all running containers
 ```
-docker stop $(docker ps -a -q)
+podman stop $(podman ps -a -q)
 ```
 
-## Docker remove all containers
+## Podman remove all containers
 ```
-docker rm $(docker ps -aq)
+podman rm $(podman ps -aq)
 ```
 
 ## List brokers

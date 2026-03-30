@@ -4,14 +4,14 @@
 
 ## Start the cluster
 
-If you are using the cloud environment, we suggest stopping docker compose by running `docker compose stop` in `~/kafka-streaming-technology` folder.
+If you are using the cloud environment, we suggest stopping podman compose by running `podman compose stop` in `~/kafka-streaming-technology` folder.
 
 Start 3 controller hosts
 
 ![3 Controllers](/img/controllers.png)
 
 ```sh
-docker run -d \
+podman run -d \
    --net=host \
    --name=ctrl-1 \
    -e KAFKA_NODE_ID=1 \
@@ -22,7 +22,7 @@ docker run -d \
    -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
    confluentinc/cp-kafka:7.6.2
 
-docker run -d \
+podman run -d \
    --net=host \
    --name=ctrl-2 \
    -e KAFKA_NODE_ID=2 \
@@ -33,7 +33,7 @@ docker run -d \
    -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
    confluentinc/cp-kafka:7.6.2
 
-docker run -d \
+podman run -d \
    --net=host \
    --name=ctrl-3 \
    -e KAFKA_NODE_ID=3 \
@@ -50,7 +50,7 @@ Start 3 broker instances
 ![3 Broker and Controller](/img/cluster.png)
 
 ```sh
-docker run -d \
+podman run -d \
     --net=host \
     --name=kafka-1 \
     -e KAFKA_NODE_ID=101 \
@@ -63,7 +63,7 @@ docker run -d \
     -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
     confluentinc/cp-kafka:7.6.2
 
-docker run -d \
+podman run -d \
     --net=host \
     --name=kafka-2 \
     -e KAFKA_NODE_ID=102 \
@@ -76,7 +76,7 @@ docker run -d \
     -e CLUSTER_ID=oNRxl8mSTnmFKTCd7cIzrA \
     confluentinc/cp-kafka:7.6.2
 
-docker run -d \
+podman run -d \
     --net=host \
     --name=kafka-3 \
     -e KAFKA_NODE_ID=103 \
@@ -95,7 +95,7 @@ docker run -d \
 First, we start an interactive shell that is attached to our cluster net and contains the kafka command line shell scripts
 
 ```sh
-docker run -it --net=host --rm  confluentinc/cp-kafka:7.6.2 /bin/bash
+podman run -it --net=host --rm  confluentinc/cp-kafka:7.6.2 /bin/bash
 ```
 
 you will find the kafka shell scripts in the /bin directory
@@ -116,7 +116,7 @@ check if the topic is there. Run _./kafka-topics --help_ to check how.
 - shutdown the leader. Which broker is the leader now?
 - start the broker that was not running.
 
-💡 you can stop and start a broker by using `docker stop` as well as `docker start` and the container name for broker (e.g., kafka-1 for the first broker)
+💡 you can stop and start a broker by using `podman stop` as well as `podman start` and the container name for broker (e.g., kafka-1 for the first broker)
 
 Generate sensor data:
 

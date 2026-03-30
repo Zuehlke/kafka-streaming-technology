@@ -12,13 +12,13 @@ Contents:
 Make sure that the exercise environment is up and running:
 
 ```
-docker compose up -d
+podman compose up -d
 ```
 
 Start the KSQL CLI:
 
 ```
-docker compose exec ksqldb-cli ksql http://ksqldb-server:8088
+podman compose exec ksqldb-cli ksql http://ksqldb-server:8088
 ```
 
 Explore Topics, Streams and Tables:
