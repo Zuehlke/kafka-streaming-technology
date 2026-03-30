@@ -5,13 +5,13 @@
 Make sure that the exercise environment is up and running:
 
 ```
-docker-compose up -d
+podman compose up -d
 ```
 
 💡 **Important:** Every command needs to be executed from the Kafka Broker or Kafka Connect **Docker Container**. Open two consoles:
 
-* ***Kafka Broker***: `docker exec -it broker bash`
-* ***Kafka Connect***: `docker exec -it kafka-connect-01 bash`
+* ***Kafka Broker***: `podman exec -it broker bash`
+* ***Kafka Connect***: `podman exec -it connect bash`
 
 ## File source connector
 
@@ -19,9 +19,9 @@ Let's get started and create a file topic:
 
 ```
 # From broker container
-kafka-topics --bootstrap-server localhost:9092 --create --topic file-topic --partitions 3 --replication-factor 1
+kafka-topics --bootstrap-server broker:9092 --create --topic file-topic --partitions 3 --replication-factor 1
 # Inspect the new topis
-kafka-topics --bootstrap-server localhost:9092 --topic file-topic --describe
+kafka-topics --bootstrap-server broker:9092 --topic file-topic --describe
 ```
 
 Access to Kafka Connect container and create an empty file:
@@ -36,7 +36,7 @@ Let's register the file source connector:
 
 ```
 # From broker container
-curl -X POST http://kafka-connect-01:8083/connectors \
+curl -X POST http://connect:8083/connectors \
 -H 'Accept: */*' \
 -H 'Content-Type: application/json' \
 -d '{
@@ -60,14 +60,14 @@ Let's investigate the connectors:
 ```
 # From broker container
 # Show all connectors
-curl http://kafka-connect-01:8083/connectors
+curl http://connect:8083/connectors
 # Check our specific connector
-curl http://kafka-connect-01:8083/connectors/file_source_connector
+curl http://connect:8083/connectors/file_source_connector
 # Check the status of our connector
-curl  'http://kafka-connect-01:8083/connectors/file_source_connector/status'
+curl  'http://connect:8083/connectors/file_source_connector/status'
 ```
 
-💡 By replacing kafka-connect-01 with myVMsIP or localhost you can use your browser to perform the get requests: [Cloud Connect](http://myVMsIP:8083/connectors) or [Local Connect](http://localhost:8083/connectors)
+💡 By replacing connect with myVMsIP or localhost you can use your browser to perform the get requests: [Cloud Connect](http://myVMsIP:8083/connectors) or [Local Connect](http://localhost:8083/connectors)
 
 Now let's generate data that the connector should ingest into kafka:
 
@@ -91,7 +91,7 @@ Create a file sink connector that writes to a output file:
 
 ```
 # From broker container
-curl -X POST http://kafka-connect-01:8083/connectors \
+curl -X POST http://connect:8083/connectors \
 -H 'Accept: */*' \
 -H 'Content-Type: application/json' \
 -d '{
@@ -118,7 +118,7 @@ You can write more messages to the `/tmp/input` file or produce them to the topi
 
 ```
 # From broker container
-kafka-console-producer --bootstrap-server localhost:9092 --topic file-topic
+kafka-console-producer --bootstrap-server broker:9092 --topic file-topic
 ```
 
 ## Clean up
@@ -127,8 +127,8 @@ Delete both connectors to clean up:
 
 ```
 # From connect container
-curl -X DELETE http://kafka-connect-01:8083/connectors/file_source_connector
-curl -X DELETE http://kafka-connect-01:8083/connectors/file_sink_connector
+curl -X DELETE http://connect:8083/connectors/file_source_connector
+curl -X DELETE http://connect:8083/connectors/file_sink_connector
 # The result should be empty now.
-curl http://kafka-connect-01:8083/connectors
+curl http://connect:8083/connectors
 ```
