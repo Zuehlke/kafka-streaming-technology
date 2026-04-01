@@ -16,7 +16,6 @@ public class Consumer {
     public void read(ConsumerRecord<String,SensorMeasurement> record){
             String key = record.key();
             SensorMeasurement measurement = record.value();
-            log.info("Avro message received for key : " + key + " value : " + measurement);
+        log.info("Avro message received for key : {} value : {}", key, measurement);
     }
-    
 }
