@@ -1,7 +1,7 @@
 /uc-witness-protection/.idea
 /uc-witness-protection/csv-producer/.idea
 /uc-witness-protection/kafka-stream/.idea
-/uc-witness-protection/csv-producer/target
-/uc-witness-protection/kafka-stream/target
+**/target/
+**/generated/
 **/.DS_Store
 security/certs/
