@@ -1,11 +1,11 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: localhost:29092,myVMsIP:9094
     producer:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       properties:
-        schema.registry.url: http://localhost:8081
+        schema.registry.url: http://localhost:8081,http://myVMsIP:8081
 
     consumer:
       group-id: avro-consumer
@@ -13,5 +13,5 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: earliest
       properties:
-        schema.registry.url: http://localhost:8081
+        schema.registry.url: http://localhost:8081,http://myVMsIP:8081
         specific.avro.reader: true
