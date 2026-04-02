@@ -14,7 +14,7 @@
     <name>consumer</name>
     <description>consumer</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <lombok.version>1.18.44</lombok.version>
     </properties>
     <repositories>
@@ -73,16 +73,36 @@
             <plugin>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro-maven-plugin</artifactId>
-                <version>1.11.1</version>
+                <version>1.12.1</version>
                 <executions>
                     <execution>
+                        <id>generate-avro-sources</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
                         </goals>
                         <configuration>
                             <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources</outputDirectory>
+                            <outputDirectory>${project.build.directory}/generated-sources/avro</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>add-avro-generated-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/avro</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
