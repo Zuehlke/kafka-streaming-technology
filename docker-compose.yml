@@ -19,6 +19,7 @@ services:
       CLUSTER_ID: "lZdawU0oS4mD9Qz34uLD_w"
 
   broker:
+    restart: always
     image: confluentinc/cp-server:8.0.3
     hostname: broker
     container_name: broker
@@ -157,6 +158,7 @@ services:
         /etc/confluent/docker/run
 
   ksqldb-server:
+    restart: always
     image: confluentinc/cp-ksqldb-server:8.0.3
     hostname: ksqldb-server
     container_name: ksqldb-server
@@ -180,6 +182,7 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
 
   ksqldb-cli:
+    restart: always
     image: confluentinc/cp-ksqldb-cli:8.0.3
     container_name: ksqldb-cli
     networks:
@@ -291,6 +294,7 @@ services:
 
   phpmyadmin:
     image: docker.io/phpmyadmin:5.2.3-apache
+    restart: always
     container_name: pma
     networks:
       - kafka
@@ -298,7 +302,6 @@ services:
       PMA_HOST: mariadb
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
-    restart: always
     ports:
       - 8085:80
 volumes:
