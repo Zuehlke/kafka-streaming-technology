@@ -7,8 +7,11 @@ STRIMZI_VERSION="${STRIMZI_VERSION:-0.48.0}"
 KUBE_PROM_VERSION="${KUBE_PROM_VERSION:-66.3.0}"
 
 echo "==> 1/6  minikube start"
-minikube status >/dev/null 2>&1 || \
+if ! minikube status --format '{{.APIServer}}' 2>/dev/null | grep -q Running || \
+   ! kubectl cluster-info >/dev/null 2>&1; then
   minikube start --cpus=4 --memory=8g --driver=docker
+fi
+kubectl cluster-info >/dev/null
 
 echo "==> 2/6  helm repos"
 helm repo add strimzi https://strimzi.io/charts/ >/dev/null
