@@ -1,0 +1,25 @@
+configuration:
+  akhq:
+    connections:
+      kafka-demo:
+        properties:
+          bootstrap.servers: kafka-demo-kafka-bootstrap:9092
+        schema-registry:
+          url: http://schema-registry:8081
+        # connect: added in iteration 2 step "Kafka Connect"
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+# AKHQ is Micronaut-based and reads AKHQ_* env vars as config.
+# Kubernetes auto-injects Service env vars that can confuse it.
+enableServiceLinks: false
