@@ -304,9 +304,61 @@ services:
       PMA_ARBITRARY: 1
     ports:
       - 8085:80
+
+  kafka-exporter:
+    restart: always
+    image: danielqsj/kafka-exporter:v1.9.0
+    container_name: kafka-exporter
+    hostname: kafka-exporter
+    networks:
+      - kafka
+    depends_on:
+      - broker
+    ports:
+      - "9308:9308"
+    command:
+      - --kafka.server=broker:9092
+
+  prometheus:
+    restart: always
+    image: prom/prometheus:v2.55.1
+    container_name: prometheus
+    hostname: prometheus
+    networks:
+      - kafka
+    depends_on:
+      - kafka-exporter
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+
+  grafana:
+    restart: always
+    image: grafana/grafana:11.3.0
+    container_name: grafana
+    hostname: grafana
+    networks:
+      - kafka
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+
 volumes:
   db_data: {}
   db_conf: {}
+  prometheus_data: {}
+  grafana_data: {}
 networks:
   kafka:
     name: kafka
