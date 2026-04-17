@@ -5,11 +5,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 STRIMZI_VERSION="${STRIMZI_VERSION:-0.48.0}"
 KUBE_PROM_VERSION="${KUBE_PROM_VERSION:-66.3.0}"
+MINIKUBE_DRIVER="${MINIKUBE_DRIVER:-podman}"
 
-echo "==> 1/6  minikube start"
+echo "==> 1/6  minikube start (driver=${MINIKUBE_DRIVER})"
 if ! minikube status --format '{{.APIServer}}' 2>/dev/null | grep -q Running || \
    ! kubectl cluster-info >/dev/null 2>&1; then
-  minikube start --cpus=4 --memory=8g --driver=docker
+  minikube start --cpus=4 --memory=8g --driver="${MINIKUBE_DRIVER}"
 fi
 kubectl cluster-info >/dev/null
 
