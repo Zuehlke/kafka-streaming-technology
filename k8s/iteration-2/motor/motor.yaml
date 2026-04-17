@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: motor
+  namespace: kafka
+  labels:
+    app: motor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: motor
+  template:
+    metadata:
+      labels:
+        app: motor
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: motor
+          image: ghcr.io/zuehlke/kafka-streaming-technology/motor-kraft:latest
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka-demo-kafka-bootstrap:9092
+            - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
+              value: http://schema-registry:8081
+            - name: MOTOR_MOTOR_ID
+              value: myMotor
+            - name: MOTOR_PLANT_ID
+              value: myPlant
+            - name: MOTOR_STATES_0
+              value: starting
+            - name: MOTOR_STATES_1
+              value: running
+            - name: MOTOR_STATES_2
+              value: stopping
+            - name: MOTOR_STATES_3
+              value: stopped
+            - name: MOTOR_STATES_4
+              value: error
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 50m
+            limits:
+              memory: 512Mi
+              cpu: 300m
