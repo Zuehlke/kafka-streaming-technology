@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksqldb-server
+  namespace: kafka
+  labels:
+    app: ksqldb-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ksqldb-server
+  template:
+    metadata:
+      labels:
+        app: ksqldb-server
+    spec:
+      # Avoid env-var collision with Kubernetes Service auto-injection
+      # (Confluent images parse KSQL_* env vars for config).
+      enableServiceLinks: false
+      containers:
+        - name: ksqldb-server
+          image: confluentinc/cp-ksqldb-server:8.0.3
+          ports:
+            - name: http
+              containerPort: 8088
+          env:
+            - name: KSQL_CONFIG_DIR
+              value: /etc/ksql
+            - name: KSQL_BOOTSTRAP_SERVERS
+              value: kafka-demo-kafka-bootstrap:9092
+            - name: KSQL_HOST_NAME
+              value: ksqldb-server
+            - name: KSQL_LISTENERS
+              value: http://0.0.0.0:8088
+            - name: KSQL_CACHE_MAX_BYTES_BUFFERING
+              value: "0"
+            - name: KSQL_KSQL_SCHEMA_REGISTRY_URL
+              value: http://schema-registry:8081
+            - name: KSQL_KSQL_CONNECT_URL
+              value: http://connect:8083
+            # 3-broker cluster – use replication factor 3 for processing-log topics.
+            - name: KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR
+              value: "3"
+            - name: KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE
+              value: "true"
+            - name: KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE
+              value: "true"
+            # Bound the JVM heap so ksqlDB doesn't grab 25% of the node.
+            - name: KSQL_HEAP_OPTS
+              value: "-Xms256m -Xmx512m"
+          readinessProbe:
+            httpGet:
+              path: /info
+              port: 8088
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /info
+              port: 8088
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: 640Mi
+              cpu: 150m
+            limits:
+              memory: 1200Mi
+              cpu: 1000m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ksqldb-server
+  namespace: kafka
+  labels:
+    app: ksqldb-server
+spec:
+  selector:
+    app: ksqldb-server
+  ports:
+    - name: http
+      port: 8088
+      targetPort: 8088
