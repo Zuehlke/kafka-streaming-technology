@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect
+  namespace: kafka
+  labels:
+    app: connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: connect
+  template:
+    metadata:
+      labels:
+        app: connect
+    spec:
+      # Avoid env-var collision: Kubernetes auto-injects CONNECT_* vars from the
+      # Service of the same name, which clash with Confluent's config parser.
+      enableServiceLinks: false
+      initContainers:
+        - name: install-plugins
+          image: confluentinc/cp-kafka-connect:8.0.3
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+              mkdir -p /plugins/kafka-connect-jdbc
+              mkdir -p /plugins/kafka-connect-storage-common
+
+              ## JDBC Driver (MySQL/MariaDB)
+              cd /plugins/kafka-connect-jdbc
+              curl -fsSL https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip -o mysql.zip
+              jar xvf mysql.zip
+              rm mysql.zip
+
+              ## Confluent JDBC Connector
+              curl -fsSL https://hub-downloads.confluent.io/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.9.2/confluentinc-kafka-connect-jdbc-10.9.2.zip -o jdbc.zip
+              jar xvf jdbc.zip
+              rm jdbc.zip
+
+              ## File Connector
+              cd /plugins/kafka-connect-storage-common
+              curl -fsSL https://repo1.maven.org/maven2/org/apache/kafka/connect-file/3.4.0/connect-file-3.4.0.jar -o connect-file-3.4.0.jar
+          volumeMounts:
+            - name: plugins
+              mountPath: /plugins
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 200m
+            limits:
+              memory: 512Mi
+              cpu: 2000m
+      containers:
+        - name: connect
+          image: confluentinc/cp-kafka-connect:8.0.3
+          ports:
+            - name: rest
+              containerPort: 8083
+          env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: kafka-demo-kafka-bootstrap:9092
+            - name: CONNECT_REST_PORT
+              value: "8083"
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              value: connect
+            - name: CONNECT_GROUP_ID
+              value: k8s-connect-group
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: k8s-connect-configs
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: k8s-connect-offsets
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: k8s-connect-status
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: CONNECT_KEY_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL
+              value: http://schema-registry:8081
+            - name: CONNECT_VALUE_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL
+              value: http://schema-registry:8081
+            - name: CONNECT_LOG4J_ROOT_LOGLEVEL
+              value: INFO
+            - name: CONNECT_LOG4J_LOGGERS
+              value: org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR
+            - name: CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN
+              value: "[%d] %p %X{connector.context}%m (%c:%L)%n"
+            - name: CONNECT_PLUGIN_PATH
+              value: /usr/share/java,/plugins
+            # Heap explizit begrenzen – sonst zieht die JVM 25% vom Node.
+            - name: KAFKA_HEAP_OPTS
+              value: "-Xms256m -Xmx512m"
+          volumeMounts:
+            - name: plugins
+              mountPath: /plugins
+          readinessProbe:
+            httpGet:
+              path: /connectors
+              port: 8083
+            initialDelaySeconds: 90
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8083
+            initialDelaySeconds: 180
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: 768Mi
+              cpu: 200m
+            limits:
+              memory: 1500Mi
+              cpu: 1500m
+      volumes:
+        - name: plugins
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connect
+  namespace: kafka
+  labels:
+    app: connect
+spec:
+  selector:
+    app: connect
+  ports:
+    - name: rest
+      port: 8083
+      targetPort: 8083
