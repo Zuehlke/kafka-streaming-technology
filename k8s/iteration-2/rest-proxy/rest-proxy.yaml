@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-proxy
+  namespace: kafka
+  labels:
+    app: rest-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-proxy
+  template:
+    metadata:
+      labels:
+        app: rest-proxy
+    spec:
+      # Avoid env-var collision with Kubernetes Service auto-injection
+      # (Confluent images parse KAFKA_REST_* env vars for config).
+      enableServiceLinks: false
+      containers:
+        - name: rest-proxy
+          image: confluentinc/cp-kafka-rest:8.0.3
+          ports:
+            - name: http
+              containerPort: 8082
+          env:
+            - name: KAFKA_REST_HOST_NAME
+              value: rest-proxy
+            - name: KAFKA_REST_BOOTSTRAP_SERVERS
+              value: kafka-demo-kafka-bootstrap:9092
+            - name: KAFKA_REST_LISTENERS
+              value: http://0.0.0.0:8082
+            - name: KAFKA_REST_SCHEMA_REGISTRY_URL
+              value: http://schema-registry:8081
+            # Bound the JVM heap so rest-proxy doesn't grab 25% of the node.
+            - name: KAFKAREST_HEAP_OPTS
+              value: "-Xms128m -Xmx384m"
+          readinessProbe:
+            httpGet:
+              path: /v3/clusters
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /v3/clusters
+              port: 8082
+            initialDelaySeconds: 90
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: 384Mi
+              cpu: 100m
+            limits:
+              memory: 768Mi
+              cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-proxy
+  namespace: kafka
+  labels:
+    app: rest-proxy
+spec:
+  selector:
+    app: rest-proxy
+  ports:
+    - name: http
+      port: 8082
+      targetPort: 8082
