@@ -6,7 +6,9 @@ configuration:
           bootstrap.servers: kafka-demo-kafka-bootstrap:9092
         schema-registry:
           url: http://schema-registry:8081
-        # connect: added in iteration 2 step "Kafka Connect"
+        connect:
+          - name: connect
+            url: http://connect:8083
 
 service:
   type: ClusterIP
