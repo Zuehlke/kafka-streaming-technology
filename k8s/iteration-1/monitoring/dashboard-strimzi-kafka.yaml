@@ -795,7 +795,7 @@ data:
           "targets": [
             {
               "datasource": "Prometheus",
-              "expr": "sum(container_memory_usage_bytes{namespace=\"$kubernetes_namespace\",container=\"kafka\"}) by (pod)",
+              "expr": "sum(container_memory_usage_bytes{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-combined.*\"}) by (pod)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 1,
@@ -887,7 +887,7 @@ data:
           "targets": [
             {
               "datasource": "Prometheus",
-              "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$kubernetes_namespace\",container=\"kafka\"}[5m])) by (pod)",
+              "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-combined.*\"}[5m])) by (pod)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 1,
@@ -1071,7 +1071,7 @@ data:
           "targets": [
             {
               "datasource": "Prometheus",
-              "expr": "sum(process_open_fds{namespace=\"$kubernetes_namespace\",container=\"kafka\"}) by (pod)",
+              "expr": "sum(process_open_fds{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-combined.*\"}) by (pod)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 1,

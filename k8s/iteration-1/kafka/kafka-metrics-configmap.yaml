@@ -2,6 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: kafka-metrics
+  namespace: kafka
   labels:
     app: strimzi
 data:
@@ -167,3 +168,29 @@ data:
     - pattern: "kafka.server<type=broker-metadata-metrics><>(.+):"
       name: kafka_server_brokermetadatametrics_$1
       type: GAUGE
+    # java.lang:* MBeans – the Strimzi-with-JVM-metrics dashboard (24626) queries
+    # e.g. java_lang_memory_heapmemoryusage_used and java_lang_threading_threadcount.
+    # With `rules:` defined, jmx_exporter exports only what matches, so add passes for java.lang.
+    # Combined with `lowercaseOutputName: true` above this yields
+    #   java.lang<type=Memory><HeapMemoryUsage>used  ->  java_lang_memory_heapmemoryusage_used
+    #   java.lang<type=Threading><>ThreadCount       ->  java_lang_threading_threadcount
+    #
+    # GC needs a dedicated rule: the dashboard expects the collector name baked
+    # into the metric (java_lang_g1_young_generation_collectioncount), not as a
+    # label. Must come BEFORE the generic java.lang<name=..., type=...> rule.
+    # jmx_exporter emits keys in alphabetical order (canonical ObjectName form),
+    # so keys come out as `name=..., type=...` (not type, name).
+    - pattern: 'java.lang<name=(.+), type=GarbageCollector><>(\w+)'
+      name: java_lang_$1_$2
+    - pattern: 'java.lang<name=(.+), type=(.+)><(.+)>(\w+)'
+      name: java_lang_$2_$3_$4
+      labels:
+        name: "$1"
+    - pattern: 'java.lang<name=(.+), type=(.+)><>(\w+)'
+      name: java_lang_$2_$3
+      labels:
+        name: "$1"
+    - pattern: 'java.lang<type=(.+)><(.+)>(\w+)'
+      name: java_lang_$1_$2_$3
+    - pattern: 'java.lang<type=(.+)><>(\w+)'
+      name: java_lang_$1_$2
