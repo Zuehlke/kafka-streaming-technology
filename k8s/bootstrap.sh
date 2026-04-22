@@ -42,7 +42,12 @@ kubectl apply -n kafka -f "${SCRIPT_DIR}/kafka/kafka-cluster.yaml"
 kubectl apply -f "${SCRIPT_DIR}/kafka/pod-monitor-kafka.yaml"
 kubectl apply -f "${SCRIPT_DIR}/kafka/pod-monitor-operator.yaml"
 kubectl apply -f "${SCRIPT_DIR}/kafka/pod-monitor-entity-operator.yaml"
-kubectl apply -f "${SCRIPT_DIR}/monitoring/dashboard-strimzi-kafka.yaml"
+# Dashboard: build ConfigMap from the JSON file so git diffs stay readable.
+kubectl -n monitoring create configmap grafana-dashboard-strimzi-kafka \
+  --from-file="${SCRIPT_DIR}/monitoring/dashboards/strimzi-kafka.json" \
+  --dry-run=client -o yaml | \
+  kubectl label --local -f - grafana_dashboard=1 --dry-run=client -o yaml | \
+  kubectl apply -f -
 
 echo "==> 6/9  waiting for Kafka cluster to be ready (this may take 3-5 min)"
 kubectl wait kafka/kafka-demo --for=condition=Ready --timeout=10m -n kafka
