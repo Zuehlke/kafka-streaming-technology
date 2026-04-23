@@ -30,7 +30,7 @@ spec:
             - name: SCHEMA_REGISTRY_LISTENERS
               value: http://0.0.0.0:8081
             - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR
-              value: "3"
+              value: "1"
           readinessProbe:
             httpGet:
               path: /subjects

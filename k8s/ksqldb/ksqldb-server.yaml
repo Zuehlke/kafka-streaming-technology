@@ -39,9 +39,9 @@ spec:
               value: http://schema-registry:8081
             - name: KSQL_KSQL_CONNECT_URL
               value: http://connect:8083
-            # 3-broker cluster – use replication factor 3 for processing-log topics.
+            # Single-broker dev cluster – replication factor 1 for processing-log topics.
             - name: KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR
-              value: "3"
+              value: "1"
             - name: KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE
               value: "true"
             - name: KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE

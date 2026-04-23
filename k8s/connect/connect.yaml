@@ -75,11 +75,11 @@ spec:
             - name: CONNECT_STATUS_STORAGE_TOPIC
               value: k8s-connect-status
             - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
-              value: "3"
+              value: "1"
             - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
-              value: "3"
+              value: "1"
             - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
-              value: "3"
+              value: "1"
             - name: CONNECT_KEY_CONVERTER
               value: io.confluent.connect.avro.AvroConverter
             - name: CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL

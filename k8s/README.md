@@ -6,7 +6,7 @@ repo root. Runs on **minikube** with podman or docker driver.
 ## What's deployed
 
 **Platform (`kafka` namespace)**
-- 3-node Kafka cluster in **KRaft combined mode** (each node is controller + broker) via the **Strimzi** operator
+- **Single-node Kafka cluster** in **KRaft combined mode** (controller + broker) via the **Strimzi** operator — all replication factors set to 1. For the replication / failover labs or multi-node testing, scale `KafkaNodePool.replicas` up and bump the replication factors in `kafka-cluster.yaml` + the `*_REPLICATION_FACTOR` env vars in Connect / Schema Registry / ksqlDB.
 - **Schema Registry** (Confluent CP 8.0.3)
 - **Kafka Connect** (Confluent CP 8.0.3) — init container installs MySQL JDBC driver, Confluent JDBC connector, file connector
 - **ksqlDB server** (Confluent CP 8.0.3)
@@ -137,6 +137,10 @@ PVCs live inside the minikube container, so `minikube delete` wipes everything.
   - Image pull secrets for the corporate registry mirror.
   - Drop `kube-prometheus-stack` on the enterprise cluster if Prometheus /
     Grafana are provided centrally; ship dashboards as a ConfigMap only.
+- **HA overlay.** Default is a single-broker cluster (RF=1) — fast, lean,
+  good for most labs. Add a `k8s/overlays/ha/` Kustomize overlay that scales
+  `KafkaNodePool.replicas` to 3 and bumps all replication factors back to 3
+  for the replication / failover / rolling-update labs.
 - **End-to-end tests.** Run the `uc-iot` and `uc-witness-protection` exercises
   against the cluster as smoke tests.
 
@@ -144,8 +148,9 @@ PVCs live inside the minikube container, so `minikube delete` wipes everything.
 
 - **Combined mode** trades isolation for footprint — fine for dev, not recommended for prod.
 - Each broker has **20 Gi** PVC — adjust in `kafka/kafka-cluster.yaml` on PVC pressure.
-- **Resource sizing:** defaults aim for a minikube with `--cpus=8 --memory=12g`. Smaller nodes
-  require scaling down the monitoring stack or sensor/motor first.
+- **Resource sizing:** defaults aim for a minikube with `--cpus=8 --memory=12g`. With the
+  single-broker default you can probably go lower (~6 CPU / 8–10 Gi), but kube-prometheus-stack
+  + Connect + ksqlDB + Schema Registry + REST Proxy + MariaDB + AKHQ still add up.
 - **Service env-var collision:** every Confluent image (Schema Registry, Connect, ksqlDB,
   REST Proxy) has `enableServiceLinks: false` — Kubernetes auto-injects `<SERVICENAME>_*`
   env vars from matching Services, which collide with the Confluent config parser.
