@@ -1,7 +1,8 @@
 # Kafka Training
 
 * [Kafka Training Environment Cloud](training-env-cloud.md) (preferred) or
-* [Kafka Training Environment Local](training-environment.md)
+* [Kafka Training Environment Local](training-environment.md) (podman compose) or
+* [Kafka Training Environment on Kubernetes](k8s/README.md) (minikube — experimental)
 
 ## Day 1
 * [Cluster](cluster.md)

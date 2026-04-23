@@ -119,6 +119,27 @@ minikube delete
 
 PVCs live inside the minikube container, so `minikube delete` wipes everything.
 
+## Backlog / Future work
+
+- **Portability minikube ↔ enterprise k8s cluster.** Goal: developers with
+  powerful MBPs run locally in minikube; others run the same manifests against
+  a shared corporate k8s cluster. Likely changes:
+  - Split manifests into a Kustomize base + `overlays/minikube/` and
+    `overlays/enterprise/` (or equivalent Helm values files).
+  - External access: NodePort `32092` on minikube vs. Ingress / LoadBalancer
+    on the enterprise cluster; Grafana/AKHQ likewise via Ingress.
+  - `storageClass` parameterised (minikube `standard` hostpath vs. cluster
+    default / RWX class); adjust PVC sizes.
+  - Namespace parameterised so multiple trainees can share one cluster
+    without collisions; unique Kafka `cluster.name` per namespace.
+  - Respect corporate `ResourceQuota` / `LimitRange` — current sizings assume
+    a dedicated minikube; likely need smaller `--cpus`/`--memory` on shared.
+  - Image pull secrets for the corporate registry mirror.
+  - Drop `kube-prometheus-stack` on the enterprise cluster if Prometheus /
+    Grafana are provided centrally; ship dashboards as a ConfigMap only.
+- **End-to-end tests.** Run the `uc-iot` and `uc-witness-protection` exercises
+  against the cluster as smoke tests.
+
 ## Notes
 
 - **Combined mode** trades isolation for footprint — fine for dev, not recommended for prod.
